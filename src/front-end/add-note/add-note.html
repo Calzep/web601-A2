@@ -7,7 +7,7 @@
     <head>
         <meta charset="utf-8">
         <meta http-equiv="X-UA-Compatible" content="IE=edge">
-        <title></title>
+        <title>Add Note</title>
         <meta name="description" content="">
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <link rel="stylesheet" href="add-note.css">
@@ -23,7 +23,7 @@
         <article>
             <form class="newNoteForm">
                 <h2>Enter your new note</h2>
-                <section class="note">
+                <section class="noteEntry">
                     <label for="titleEntry">Title
                         <input id="titleEntry" name="title" type="text" required placeholder="title">
                     </label>
@@ -31,8 +31,10 @@
                         <textarea id="bodyEntry name="body" rows="15" placeholder="the main body of your note(optional)"></textarea>
                     </label>
                 </section>
-                <button id="discardBtn" class="actionBtn">Discard</button>
-                <button id="saveBtn" class="actionBtn">Save</button>
+                <section class="formButtons">
+                    <button id="discardBtn" class="actionBtn">Discard</button>
+                    <button id="saveBtn" class="actionBtn">Save</button>
+                </section>
             </form>
         </article>
         <script src="" async defer></script>
