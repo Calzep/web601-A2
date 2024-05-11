@@ -1,0 +1,105 @@
+/* Global elements */
+
+* {
+    box-sizing: border-box;
+}
+
+body {
+    display: flex;
+    flex-flow: column nowrap;
+    min-width: 350px;   
+    min-height: 100vh;
+    margin: 0;
+    padding: 0;
+    background-color: #558b6e;
+    color: #fff;
+}
+
+.nav {
+    width: 100%;
+    height: 100px;
+    margin: 0;
+    padding: 0;
+    background-color: #2f323a;
+    border-bottom: 2px solid #1f222a;
+}
+
+#logoutBtn {
+    float: right;
+    margin: 30px;
+}
+
+h1 {
+    font: 36px sans-serif;
+    font-weight: 100;
+    margin: 0;
+    padding: 29px 29px;
+    float: left;
+}
+
+h2 {
+    font: 30px sans-serif;
+    font-weight: 550;
+    margin: 0;
+    padding: 0;
+}
+
+.default {
+    font: 12px sans-serif;
+    color: #fff
+}
+
+.dull {
+    font: 12px sans-serif;
+    color: #dadada;
+}
+
+.actionBtn {
+    width: 100px;
+    height: 40px;
+    color: #fff;
+    background-color: #1f222a;
+    border: 1px solid #fff;
+    font: 18px sans-serif;
+    cursor: pointer;
+}
+/* page specif elements */
+
+.login-form {
+    display: flex;
+    flex-flow: column nowrap;
+    align-items: center;
+    height: auto;
+    max-width: 500px;
+    min-width: 350px;
+    margin: 200px auto;
+    padding: 30px;
+    background-color: #2f323a;
+    border: 2px solid #444;
+    border-radius: 30px;
+}
+
+.login-form label {
+    margin-top: 40px;
+    font: 14px sans-serif
+}
+
+.login-form input {
+    display: block;
+    width: 300px;
+    height: 30px;
+    margin-top: 10px;
+}
+
+#loginSubmitBtn {
+    margin-top: 40px;
+}
+
+#createSubmitBtn {
+    width: 200px;
+}
+
+#createAccountTxt {
+    margin-top: 40px;
+}
+
