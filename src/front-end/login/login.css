@@ -63,6 +63,19 @@ h2 {
     font: 18px sans-serif;
     cursor: pointer;
 }
+
+.actionBtn:hover {
+    color: #3adf87;
+    background-color: #1f222a;
+    border-color: #3adf87;
+}
+
+.actionBtn:active {
+    color: #1aff85;
+    background-color: #1f222a;
+    border-color: #1aff85;
+}
+
 /* page specif elements */
 
 .login-form {
