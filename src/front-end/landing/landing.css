@@ -1,0 +1,147 @@
+/* Global elements */
+
+* {
+    box-sizing: border-box;
+}
+
+body {
+    display: flex;
+    flex-flow: column nowrap;
+    min-width: 350px;   
+    min-height: 100vh;
+    margin: 0;
+    padding: 0;
+    background-color: #558b6e;
+    color: #fff;
+}
+
+.nav {
+    width: 100%;
+    height: 100px;
+    margin: 0;
+    padding: 0;
+    background-color: #2f323a;
+    border-bottom: 2px solid #1f222a;
+}
+
+#logoutBtn {
+    float: right;
+    margin: 30px;
+}
+
+h1 {
+    font: 36px sans-serif;
+    font-weight: 100;
+    margin: 0;
+    padding: 29px 29px;
+    float: left;
+}
+
+h2 {
+    font: 30px sans-serif;
+    font-weight: 550;
+    margin: 0;
+    padding: 0;
+}
+
+.default {
+    font: 12px sans-serif;
+    font-weight: 100;
+    text-align: justify;
+    color: #fff;
+}
+
+.dull {
+    font: 12px sans-serif;
+    font-weight: 100;
+    color: #dadada;
+}
+
+.actionBtn {
+    width: 100px;
+    height: 40px;
+    color: #fff;
+    background-color: #1f222a;
+    border: 1px solid #fff;
+    font: 18px sans-serif;
+    cursor: pointer;
+}
+
+.actionBtn:hover {
+    color: #3adf87;
+    background-color: #1f222a;
+    border-color: #3adf87;
+}
+
+.actionBtn:active {
+    color: #1aff85;
+    background-color: #1f222a;
+    border-color: #1aff85;
+}
+
+/* page specific elements */
+
+.mainContainer {
+    display: flex;
+    flex-flow: column nowrap;
+    align-items: center;
+    width: 80%;
+    max-width: 800px;
+    min-width: 350px;
+    height: auto;
+    margin: 100px auto;
+    padding: 30px;
+    background-color: #2f323a;
+    border: 2px solid #1f222a;
+    border-radius: 30px;
+}
+
+.noteContainer {
+    display: flex;
+    flex-flow: column nowrap;
+    align-items: center;
+    width: 100%;
+    height: auto;
+    margin: 0;
+    padding: 0;
+}
+
+.note {
+    width: 100%;
+    height: auto;
+    margin: 30px 0 20px 0;
+    padding: 20px;
+    background-color: #1e1f22;
+    border: 2px solid #000;
+    border-radius: 30px;
+}
+
+ h3 {
+    font: 24px sans-serif;
+    font-weight: 100;
+    display: inline-block;
+    margin: 0 0 10px 0;
+    padding: 0;
+ }
+
+ .date {
+    margin: 0;
+    margin-top: 12px;
+    padding: 0;
+    float: right;
+ }
+
+ a:link, a:visited  {
+    color:#dadada;
+    text-decoration: underline;
+    font: 12px sans-serif;
+    float: right;
+}
+
+a:hover {
+    color:#3adf87;
+}
+
+a:active {
+    color: #1aff85;
+}
