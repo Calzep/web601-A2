@@ -145,3 +145,24 @@ a:hover {
 a:active {
     color: #1aff85;
 }
+
+@media only screen and (max-width: 600px) {
+    /* Widen forum and remove margins on smaller screens */
+    .mainContainer {
+        width: 100%;
+        margin: 0;
+        border: none;
+    }
+
+    /* Prevent colour bleeding */
+    body {
+        background-color: #2f323a;
+    }
+}
+
+@media only screen and (max-width: 400px) {
+    /* Widen forum and remove margins on smaller screens */
+    h1 {
+        font-size: 24px;
+    }
+}
