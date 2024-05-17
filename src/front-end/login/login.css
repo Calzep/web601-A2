@@ -128,11 +128,6 @@ h2 {
             border-radius: 0;
         }
         
-        /* Remove clutter */    
-        h1, footer {
-            display: none;
-        }
-    
         /* Prevent colour bleeding */
         body {
             background-color: #2f323a;
