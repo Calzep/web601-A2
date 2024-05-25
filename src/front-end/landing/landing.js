@@ -1,10 +1,26 @@
 //SECTION functions
 
+const setFilterOptions = (options) => {
+    let htmlOptions = []
+
+    options.forEach((element, index) => {
+        htmlOptions.push(`<option value="${index}">${element[0]}</option>`)
+    })
+    
+    dateFilter.innerHTML = htmlOptions.join('')
+}
+
 const retrieveNotes = () => {
     return noteTestData
 }
 
 const displayNotes = (notes) => {
+
+    //Order list by date
+    notes.sort(function(x, y) {
+        return y.date - x.date
+    })
+    
     let noteCards = []
 
     notes.forEach(note => {
@@ -16,6 +32,8 @@ const displayNotes = (notes) => {
         <a href=""><p>edit note</p></a>
     </div>`)
     });
+  
+    //console.log(noteCards)
 
     noteContainer.innerHTML = noteCards.join('')
 }
@@ -52,9 +70,20 @@ let noteTestData =  [
     }
 ]
 
+const dateFilterOptions = [
+    ['All time', new Date('0000-00-00T00:00:00.000Z')],
+    ['last 3 days', new Date() - new Date('0000-00-03T00:00:00.000Z')],
+    ['last week', new Date() - new Date('0000-00-07T00:00:00.000Z')],
+    ['last month', new Date() - new Date('0000-01-00T00:00:00.000Z')],
+    ['last 6 months', new Date() - new Date('0000-06-00T00:00:00.000Z')],
+    ['last year', new Date() - new Date('0001-00-00T00:00:00.000Z')]
+]
+
 const noteContainer = document.getElementById('noteContainer')
+const dateFilter = document.getElementById('dateFilter')
 
 //SECTION Page load
+setFilterOptions(dateFilterOptions)
 
 let notes = retrieveNotes()
 
