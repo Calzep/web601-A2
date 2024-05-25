@@ -6,12 +6,22 @@ const setFilterOptions = (options) => {
     options.forEach((element, index) => {
         htmlOptions.push(`<option value="${index}">${element[0]}</option>`)
     })
-    
+
     dateFilter.innerHTML = htmlOptions.join('')
 }
 
+const getPastDate = (days) => {
+    let date = new Date();
+    date.setDate(date.getDate() - days)
+    return new Date(date)
+}
+
+const dateFilterChanged = () => {
+    displayNotes(notes)
+}
+
 const retrieveNotes = () => {
-    return noteTestData
+    return noteTestData.slice()
 }
 
 const displayNotes = (notes) => {
@@ -24,16 +34,16 @@ const displayNotes = (notes) => {
     let noteCards = []
 
     notes.forEach(note => {
-        noteCards.push(`<div id="${note.id}" class="note">
-        <h3>${note.title}</h3>
-        <p class="dull date">${note.date.toLocaleDateString()}</p>
-        <hr>
-        <p class="default">${note.body}</p>
-        <a href=""><p>edit note</p></a>
-    </div>`)
-    });
-  
-    //console.log(noteCards)
+        if(note.date.toISOString() > dateFilterOptions[dateFilter.value][1].toISOString()){
+            noteCards.push(`<div id="${note.id}" class="note">
+            <h3>${note.title}</h3>
+            <p class="dull date">${note.date.toLocaleDateString()}</p>
+            <hr>
+            <p class="default">${note.body}</p>
+            <a href=""><p>edit note</p></a>
+        </div>`)
+        }
+    })
 
     noteContainer.innerHTML = noteCards.join('')
 }
@@ -70,21 +80,28 @@ let noteTestData =  [
     }
 ]
 
+let notes = retrieveNotes()
+
 const dateFilterOptions = [
-    ['All time', new Date('0000-00-00T00:00:00.000Z')],
-    ['last 3 days', new Date() - new Date('0000-00-03T00:00:00.000Z')],
-    ['last week', new Date() - new Date('0000-00-07T00:00:00.000Z')],
-    ['last month', new Date() - new Date('0000-01-00T00:00:00.000Z')],
-    ['last 6 months', new Date() - new Date('0000-06-00T00:00:00.000Z')],
-    ['last year', new Date() - new Date('0001-00-00T00:00:00.000Z')]
+    ['All time', new Date('1901-12-13T00:00:00.000Z')],
+    ['last 3 days', getPastDate(3)],
+    ['last week', getPastDate(7)],
+    ['last month', getPastDate(31)],
+    ['last 6 months', getPastDate(183)],
+    ['last year', getPastDate(365)]
 ]
 
 const noteContainer = document.getElementById('noteContainer')
 const dateFilter = document.getElementById('dateFilter')
 
+
 //SECTION Page load
+
 setFilterOptions(dateFilterOptions)
 
-let notes = retrieveNotes()
-
 displayNotes(notes)
+
+
+//SECTION Event listeners
+dateFilter.addEventListener("change", dateFilterChanged)
+
