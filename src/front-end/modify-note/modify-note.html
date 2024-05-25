@@ -11,6 +11,7 @@
         <meta name="description" content="">
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <link rel="stylesheet" href="modify-note.css">
+        <script type="module" src="modify-note.js"></script>
     </head>
     <body>
         <!--[if lt IE 7]>
@@ -25,19 +26,20 @@
                 <h2>Revise note details</h2>
                 <section class="noteEntry">
                     <label for="titleEntry">Title
-                        <input id="titleEntry" name="title" type="text" required placeholder="SAVED DATA HERE">
+                        <input id="titleEntry" name="title" type="text" required>
                     </label>
                     <label for="bodyEntry">Content
-                        <textarea id="bodyEntry name="body" rows="15" placeholder="SAVED DATA HERE"></textarea>
+                        <textarea id="bodyEntry" name="body" rows="15"></textarea>
                     </label>
+                    <input id="noteId" name="noteId" style="display:none">
+                    <input id="deleteNote" name="deleteNote" type="checkbox" style="display:none">
                 </section>
                 <section class="formButtons">
-                    <button id="saveBtn" class="actionBtn">Save</button>
-                    <button id="discardBtn" class="actionBtn">Discard</button>
-                    <button id="deleteBtn" class="actionBtn">Delete Note</button>
+                    <button id="saveBtn" class="actionBtn" type="submit">Save</button>
+                    <button id="discardBtn" class="actionBtn" type="button">Discard</button>
+                    <button id="deleteBtn" class="actionBtn" type="button" checked="false">Delete Note</button>
                 </section>
             </form>
         </article>
-        <script src="" async defer></script>
     </body>
 </html>
