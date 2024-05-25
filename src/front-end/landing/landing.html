@@ -23,10 +23,15 @@
         </div>
         <article>
             <div class="mainContainer">
-                <a href="../create-note/create-note.html"><button id="newNoteBtn" class="actionBtn">New Note</button></a>
-                <label for="dateFilter">Filter</label>
-                <!-- Select options are created in the JS script -->
-                <select name="dateFilter" id="dateFilter"></select>
+                <div class="controlContainer">
+                    <button id="newNoteBtn" class="actionBtn">New Note</button>
+                    <div class="filterContainer">
+                        <label for="dateFilter" class="default">Filter</label>
+                        <!-- Select options are created in the JS script -->
+                        <select name="dateFilter" id="dateFilter" class=""default></select>
+                    </div>
+                </div>
+                    
                 <!-- Contains all notes, sorted by date -->
                 <div id="noteContainer" class="noteContainer">
                 </div>

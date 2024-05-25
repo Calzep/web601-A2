@@ -69,13 +69,11 @@ h2 {
 
 .actionBtn:hover {
     color: #3adf87;
-    background-color: #1f222a;
     border-color: #3adf87;
 }
 
 .actionBtn:active {
     color: #1aff85;
-    background-color: #1f222a;
     border-color: #1aff85;
 }
 
@@ -94,6 +92,38 @@ h2 {
     background-color: #2f323a;
     border: 2px solid #1f222a;
     border-radius: 30px;
+}
+
+.controlContainer {
+    display: block;
+    width: 100%;
+    height: auto;
+}
+
+.filterContainer {
+    float: right;
+    margin-top: 20px;
+    cursor: pointer;
+}
+
+.filterContainer select {
+    background-color: #1f222a;
+    color: #fff;
+    border: 1px solid #fff;
+    padding: 2px;
+}
+
+.filterContainer select:hover {
+    border-color: #3adf87;
+}
+
+.filterContainer select:active {
+    border-color: #1aff85;
+}
+
+
+#newNoteBtn {
+    margin-left: calc(50% - 50px);
 }
 
 .noteContainer {
