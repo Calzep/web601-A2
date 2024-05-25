@@ -11,6 +11,7 @@
         <meta name="description" content="">
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <link rel="stylesheet" href="landing.css">
+        <script type="module" src="landing.js"></script>
     </head>
     <body>
         <!--[if lt IE 7]>
@@ -22,20 +23,19 @@
         </div>
         <article>
             <div class="mainContainer">
-                <button id="newNoteBtn" class="actionBtn">New Note</button>
-                <!-- Contains all notes, sorted by date -->
-                <!-- Example note card, set display to none unless testing -->
-                <div class="noteContainer">
-                    <div id="exampleNote" class="note">
-                        <h3>Note Title</h3>
-                        <p class="dull date">xx/xx/xxxx</p>
-                        <hr>
-                        <p class="default">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Curabitur aliquam magna feugiat venenatis pharetra. Nunc nisi elit, varius eget bibendum et, laoreet dictum nunc. Mauris bibendum, lacus sed vulputate laoreet, est nulla vulputate quam, a ultrices sem est et libero. Sed a viverra lectus. Vestibulum volutpat vestibulum felis vitae iaculis. Nulla elit mi, ultricies quis est et, aliquam elementum odio. Interdum et malesuada fames ac ante ipsum primis in faucibus. Nunc venenatis sagittis dui sed posuere. Fusce vitae neque mauris.</p>
-                        <a href="#"><p>edit note</p></a>
+                <div class="controlContainer">
+                    <button id="newNoteBtn" class="actionBtn">New Note</button>
+                    <div class="filterContainer">
+                        <label for="dateFilter" class="default">Filter</label>
+                        <!-- Select options are created in the JS script -->
+                        <select name="dateFilter" id="dateFilter" class=""default></select>
                     </div>
+                </div>
+                    
+                <!-- Contains all notes, sorted by date -->
+                <div id="noteContainer" class="noteContainer">
                 </div>
             </div>
         </article>
-        <script src="" async defer></script>
     </body>
 </html>
