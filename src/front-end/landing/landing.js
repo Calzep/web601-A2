@@ -48,6 +48,10 @@ const displayNotes = (notes) => {
     noteContainer.innerHTML = noteCards.join('')
 }
 
+const logout = () => {
+    console.log("Not implemented")
+}
+
 //SECTION variables and constants
 let noteTestData =  [
     {
@@ -93,6 +97,7 @@ const dateFilterOptions = [
 
 const noteContainer = document.getElementById('noteContainer')
 const dateFilter = document.getElementById('dateFilter')
+const logoutBtn = document.getElementById('logoutBtn')
 
 
 //SECTION Page load
@@ -104,4 +109,5 @@ displayNotes(notes)
 
 //SECTION Event listeners
 dateFilter.addEventListener("change", dateFilterChanged)
+logoutBtn.addEventListener("click", logout)
 
