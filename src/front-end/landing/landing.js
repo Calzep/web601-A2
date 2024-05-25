@@ -53,7 +53,7 @@ const logout = () => {
 }
 
 const newNote = () => {
-    console.log("Not implemented")
+    window.location.replace("../add-note/add-note.html")
 }
 
 //SECTION variables and constants
