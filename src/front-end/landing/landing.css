@@ -102,7 +102,7 @@ h2 {
 
 .filterContainer {
     float: right;
-    margin-top: 20px;
+    margin-top: 17px;
     cursor: pointer;
 }
 
@@ -187,6 +187,28 @@ a:active {
 
     body {
         background-color: #2f323a;
+    }
+}
+
+@media only screen and (max-width: 540px) {
+    .controlContainer {
+        display: flex;
+        flex-flow: column nowrap;
+        align-items: center;
+    }
+
+    #newNoteBtn {
+        margin: 0;
+    }
+
+    .filterContainer {
+        margin-top: 40px;
+    }
+
+    .filterContainer label {
+        display: block;
+        text-align: center;
+        margin-bottom: 5px;
     }
 }
 

@@ -52,6 +52,10 @@ const logout = () => {
     console.log("Not implemented")
 }
 
+const newNote = () => {
+    console.log("Not implemented")
+}
+
 //SECTION variables and constants
 let noteTestData =  [
     {
@@ -73,7 +77,7 @@ let noteTestData =  [
         userId: 1,
         title: "Note note note note",
         body: "Note note note note Note note note note Note note note note Note note note note Note note note note Note note note note Note note note note Note note note note Note note note note Note note note note Note note note note Note note note note Note note note note Note note note note Note note note note Note note note note Note note note note Note note note note Note note note note Note note note note Note note note note Note note note note Note note note note Note note note note Note note note note Note note note note Note note note note Note note note note Note note note note Note note note note Note note note note Note note note note Note note note note Note note note note Note note note note Note note note note Note note note note Note note note note Note note note note Note note note note Note note note note Note note note note Note note note note Note note note note Note note note note Note note note note Note note note note Note note note note Note note note note Note note note note Note note note note Note note note note Note note note note Note note note note Note note note note Note note note note Note note note note Note note note note Note note note note Note note note note Note note note note Note note note note Note note note note Note note note note Note note note note Note note note note Note note note note Note note note note Note note note note Note note note note Note note note note Note note note note Note note note note Note note note note Note note note note Note note note note Note note note note Note note note note Note note note note Note note note note Note note note note Note note note note Note note note note Note note note note Note note note note Note note note note Note note note note Note note note note Note note note note Note note note note Note note note note Note note note note Note note note note Note note note note Note note note note Note note note note Note note note note Note note note note Note note note note ",
-        date: new Date('2024-05-24T02:41:30.546Z')
+        date: new Date('2024-05-21T02:41:30.546Z')
     },
     {
         id: 4,
@@ -98,7 +102,7 @@ const dateFilterOptions = [
 const noteContainer = document.getElementById('noteContainer')
 const dateFilter = document.getElementById('dateFilter')
 const logoutBtn = document.getElementById('logoutBtn')
-
+const newNoteBtn = document.getElementById('newNoteBtn')
 
 //SECTION Page load
 
@@ -110,4 +114,5 @@ displayNotes(notes)
 //SECTION Event listeners
 dateFilter.addEventListener("change", dateFilterChanged)
 logoutBtn.addEventListener("click", logout)
+newNoteBtn.addEventListener("click", newNote)
 
