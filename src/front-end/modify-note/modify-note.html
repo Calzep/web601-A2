@@ -22,7 +22,7 @@
             <button id="logoutBtn" class="actionBtn">Logout</button>
         </div>
         <article>
-            <form class="newNoteForm">
+            <form id="editNoteForm" class="newNoteForm">
                 <h2>Revise note details</h2>
                 <section class="noteEntry">
                     <label for="titleEntry">Title
@@ -31,8 +31,6 @@
                     <label for="contentEntry">Content
                         <textarea id="contentEntry" name="content" rows="15"></textarea maxlength="4000">
                     </label>
-                    <input id="noteId" name="noteId" style="display:none">
-                    <input id="deleteNote" name="deleteNote" type="checkbox" style="display:none">
                 </section>
                 <section class="formButtons">
                     <button id="saveBtn" class="actionBtn" type="submit">Save</button>

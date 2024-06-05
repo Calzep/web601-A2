@@ -47,8 +47,8 @@ router.post('/', upload.none(), async (req, res) => {
 })
 
 //Update note
-router.put('/:id', async (req, res) => {
-    const note = await Note.findByIdAndUpdate(req.params.id, {
+router.put('/:id', upload.none(), async (req, res) => {
+    let note = await Note.findByIdAndUpdate(req.params.id, {
         title: req.body.title,
         content: req.body.content,
         date: new Date()
@@ -57,15 +57,15 @@ router.put('/:id', async (req, res) => {
     })
 
     if(note) {
-        res.status(200)
+        res.status(200).send('Success')
     } else {
         res.status(500).send("Error, note could not be updated")
     }
 })
 
 //Delete note
-router.put('/:id', async (req, res) => {
-    Note.findByIdAndDelete(req.body.id).then(note => {
+router.delete('/:id', upload.none(), async (req, res) => {
+    Note.findByIdAndDelete(req.params.id).then(note => {
         if(note) {
             return res.status(200).json({success: true, message: 'Note deleted'})
         } else {

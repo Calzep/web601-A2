@@ -1,8 +1,8 @@
 //SECTION functions
 
-const loadNote = async () => {
+const load = async () => {
     var params = new URLSearchParams(window.location.search)
-    let id = params.get("id")
+    id = params.get("id")
 
     try {
         let response = await fetch(`${apiUrl}/${id}`)
@@ -14,24 +14,63 @@ const loadNote = async () => {
         console.log(note)
         titleEntry.value = note.title
         contentEntry.value = note.content
-        noteId.value = note.id
-        deleteNoteInput.value = 'false'
 
     } catch (err) {
         console.error("Error retrieving notes", err)//REVIEW include error notifs here
         return null
     }
-
-    
 }
 
 const discard = () => {
     window.location.replace("../landing/landing.html")
 }
 
-const deleteNote = () => {
-    deleteNoteInput.value = 'True'
-    console.log("not fully implemented")
+const update = async (event) => {
+    event.preventDefault()
+
+    let formData = new FormData(editNoteForm)
+
+    let requestOptions = {
+        method: 'PUT',
+        body: formData
+    }
+
+    await fetch(`${apiUrl}/${id}`, requestOptions)
+        .then(res => {
+            if(!res.ok) {
+                throw new Error('Network response was not OK')
+            }
+            return res.text()
+        })
+        .then(data => {//REVIEW Place user notifications here!
+            console.log("Data", data)
+            window.location.href = "../landing/landing.html"
+        })
+        .catch(err => {
+            console.error('Error:', err)
+        })
+}
+
+const deleteNote = async () => {
+
+    let requestOptions = {
+        method: 'DELETE',
+    }
+
+    await fetch(`${apiUrl}/${id}`, requestOptions)
+        .then(res => {
+            if(!res.ok) {
+                throw new Error('Network response was not OK')
+            }
+            return res.text()
+        })
+        .then(data => {//REVIEW Place user notifications here!
+            console.log("Data", data)
+            window.location.href = "../landing/landing.html"
+        })
+        .catch(err => {
+            console.error('Error:', err)
+        })
 }
 
 const logout = () => {
@@ -43,6 +82,7 @@ const logout = () => {
 import config from '../config/config.js'
 
 const apiUrl = config.server + config.api + config.notesRoute
+let id = 0
 
 const discardBtn = document.getElementById('discardBtn')
 const logoutBtn = document.getElementById('logoutBtn')
@@ -52,13 +92,15 @@ const titleEntry = document.getElementById('titleEntry')
 const contentEntry = document.getElementById('contentEntry')
 const noteId = document.getElementById('noteId')
 const deleteNoteInput = document.getElementById('deleteNote')
+const editNoteForm = document.getElementById('editNoteForm')
 
 //SECTION event listeners
 
 discardBtn.addEventListener('click', discard)
 logoutBtn.addEventListener('click', logout)
 deleteBtn.addEventListener('click', deleteNote)
+editNoteForm.addEventListener('submit', update)
 
 //SECTION Page Load
 
-loadNote()
+load()
