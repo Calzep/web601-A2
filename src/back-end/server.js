@@ -4,6 +4,7 @@
 const express = require('express')
 const bodyParser = require('body-parser')
 const mongoose = require('mongoose')
+const cors = require('cors')
 
 //Internal modules
 const Note = require('./models/note.js')
@@ -14,20 +15,23 @@ const app = express()
 const port = config.port
 
 //Use packages
+app.use(cors())
+app.options("*", cors())
+
 app.use(bodyParser.json())
 app.use(bodyParser.urlencoded({extended: true}))
 
 //SECTION - Routers
-const api = config.api
 const noteRoutes = require('./routes/notes.js')
 
 //use routers
-app.use(`${api}/notes`, noteRoutes)
+app.use(`api/notes`, noteRoutes)
 
 //SECTION - Database connection
 
 //MongoDB URI
-console.log(config)
+mongoose.promise = global.promise
+
 mongoose.connect(config.atlas_uri, {
     useUnifiedTopology: true,
     useNewUrlParser: true,
