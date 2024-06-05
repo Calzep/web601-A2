@@ -20,6 +20,38 @@ const dateFilterChanged = async () => {
     await displayNotes()
 }
 
+const showToastNotif = () => {
+    var params = new URLSearchParams(window.location.search)
+    let notif = params.get("notif")
+    let notifText
+
+    if(notif == 'createSuccess') {
+        toastAlert.classList.add('text-bg-success')
+        notifText = '<strong>Success!</strong> Successfully created new note.'
+    }
+    if(notif == 'createDiscard') {
+        toastAlert.classList.add('text-bg-dark-subtle')
+        notifText = 'Note discarded'
+    }
+    if(notif == 'editSuccess') {
+        toastAlert.classList.add('text-bg-success')
+        notifText = '<strong>Success!</strong> Your note has been updated.'
+    }
+    if(notif == 'editDiscard') {
+        toastAlert.classList.add('text-bg-dark-subtle')
+        notifText = 'Changes have been discarded'
+    }
+    if(notif == 'editDelete') {
+        toastAlert.classList.add('text-bg-success-subtle')
+        notifText = '<strong>Success!</strong> Your note has been deleted.'
+    }
+    if(notif) {
+        toastText.innerHTML = notifText
+        const toast = new bootstrap.Toast(toastAlert)
+        toast.show()
+    }
+}
+
 const retrieveNotes = async () => {
     try {
         let response = await fetch(apiUrl)
@@ -30,8 +62,13 @@ const retrieveNotes = async () => {
         let notes = await response.json()
         return notes
     } catch (err) {
-        console.error("Error retrieving notes", err)//REVIEW include error notifs here
-        return null
+        console.error("Error retrieving notes", err)
+
+        //Display toast notification
+        toastAlert.classList.add('text-bg-danger')
+        toastText.innerHTML = '<strong>Error!</strong> Unable to retrieve notes from database.'
+        const toast = new bootstrap.Toast(toastAlert)
+        toast.show()
     }
 }
 
@@ -105,12 +142,15 @@ const noteContainer = document.getElementById('noteContainer')
 const dateFilter = document.getElementById('dateFilter')
 const logoutBtn = document.getElementById('logoutBtn')
 const newNoteBtn = document.getElementById('newNoteBtn')
-
+const toastAlert = document.getElementById('toastAlert')
+const toastText = document.getElementById('toastText')
 
 //SECTION Page load
 setFilterOptions(dateFilterOptions)
 
 displayNotes()
+
+showToastNotif()
 
 //SECTION Event listeners
 dateFilter.addEventListener("change", dateFilterChanged)
@@ -121,3 +161,4 @@ noteContainer.addEventListener("click", function (event) {
         editNote(event)
     }
 })
+
