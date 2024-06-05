@@ -16,26 +16,44 @@ const getPastDate = (days) => {
     return new Date(date)
 }
 
-const dateFilterChanged = () => {
-    displayNotes(notes)
+const dateFilterChanged = async () => {
+    await displayNotes()
 }
 
-const retrieveNotes = () => {
-    return noteTestData.slice()
+const retrieveNotes = async () => {
+    try {
+        let response = await fetch(apiUrl)
+        if(!response.ok) {
+            throw new Error('Network response was not OK')
+        }
+
+        let notes = await response.json()
+        return notes
+    } catch (err) {
+        console.error("Error retrieving notes", err)//REVIEW include error notifs here
+        return null
+    }
 }
 
-const displayNotes = (notes) => {
+const displayNotes = async () => {
+    let notes = await retrieveNotes()
+
+    //Convert date strings into date objects
+    notes.forEach(note => {
+        note.date = new Date(note.date)
+    })
 
     //Order list by date
     notes.sort(function(x, y) {
+        console.log(x.date, y.date)
         return y.date - x.date
     })
-    
+
     let noteCards = []
 
     notes.forEach(note => {
         if(note.date.toISOString() > dateFilterOptions[dateFilter.value][1].toISOString()){
-            noteCards.push(`<div id="${note.id}" class="note">
+            noteCards.push(`<div id="${note._id}" class="note">
             <h3>${note.title}</h3>
             <p class="dull date">${note.date.toLocaleDateString()}</p>
             <hr>
@@ -57,38 +75,11 @@ const newNote = () => {
 }
 
 //SECTION variables and constants
-let noteTestData =  [
-    {
-        id: 1,
-        userId: 1,
-        title: "Test Note Title",
-        content: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Curabitur aliquam magna feugiat venenatis pharetra. Nunc nisi elit, varius eget bibendum et, laoreet dictum nunc. Mauris bibendum, lacus sed vulputate laoreet, est nulla vulputate quam, a ultrices sem est et libero. Sed a viverra lectus. Vestibulum volutpat vestibulum felis vitae iaculis. Nulla elit mi, ultricies quis est et, aliquam elementum odio. Interdum et malesuada fames ac ante ipsum primis in faucibus. Nunc venenatis sagittis dui sed posuere. Fusce vitae neque mauris.",
-        date: new Date('2024-05-25T02:41:30.546Z')
-    },
-    {
-        id: 2,
-        userId: 1,
-        title: "Remember to do something",
-        content: "",
-        date: new Date('2023-05-25T02:41:30.546Z')
-    },
-    {
-        id: 3,
-        userId: 1,
-        title: "Note note note note",
-        content: "Note note note note Note note note note Note note note note Note note note note Note note note note Note note note note Note note note note Note note note note Note note note note Note note note note Note note note note Note note note note Note note note note Note note note note Note note note note Note note note note Note note note note Note note note note Note note note note Note note note note Note note note note Note note note note Note note note note Note note note note Note note note note Note note note note Note note note note Note note note note Note note note note Note note note note Note note note note Note note note note Note note note note Note note note note Note note note note Note note note note Note note note note Note note note note Note note note note Note note note note Note note note note Note note note note Note note note note Note note note note Note note note note Note note note note Note note note note Note note note note Note note note note Note note note note Note note note note Note note note note Note note note note Note note note note Note note note note Note note note note Note note note note Note note note note Note note note note Note note note note Note note note note Note note note note Note note note note Note note note note Note note note note Note note note note Note note note note Note note note note Note note note note Note note note note Note note note note Note note note note Note note note note Note note note note Note note note note Note note note note Note note note note Note note note note Note note note note Note note note note Note note note note Note note note note Note note note note Note note note note Note note note note Note note note note Note note note note Note note note note Note note note note Note note note note Note note note note Note note note note Note note note note Note note note note Note note note note Note note note note Note note note note Note note note note Note note note note ",
-        date: new Date('2024-05-21T02:41:30.546Z')
-    },
-    {
-        id: 4,
-        userId: 1,
-        title: "Chords",
-        content: "Ab Bb Db Eb F",
-        date: new Date('2024-05-01T02:41:30.546Z')
-    }
-]
+import config from '../config/config.js'
 
-let notes = retrieveNotes()
+const apiUrl = config.server + config.api + config.notesRoute
+
+let notes = []
 
 const dateFilterOptions = [
     ['All time', new Date('1901-12-13T00:00:00.000Z')],
@@ -99,17 +90,16 @@ const dateFilterOptions = [
     ['last year', getPastDate(365)]
 ]
 
+
 const noteContainer = document.getElementById('noteContainer')
 const dateFilter = document.getElementById('dateFilter')
 const logoutBtn = document.getElementById('logoutBtn')
 const newNoteBtn = document.getElementById('newNoteBtn')
 
 //SECTION Page load
-
 setFilterOptions(dateFilterOptions)
 
-displayNotes(notes)
-
+displayNotes()
 
 //SECTION Event listeners
 dateFilter.addEventListener("change", dateFilterChanged)
