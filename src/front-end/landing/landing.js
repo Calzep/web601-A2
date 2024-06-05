@@ -30,7 +30,7 @@ const getToastNotif = () => {
         notifText = '<strong>Success!</strong> Successfully created new note.'
     }
     if(notif == 'createDiscard') {
-        toastAlert.classList.add('text-bg-dark-subtle')
+        toastAlert.classList.add('text-bg-secondary')
         notifText = 'Note discarded'
     }
     if(notif == 'editSuccess') {
@@ -38,11 +38,11 @@ const getToastNotif = () => {
         notifText = '<strong>Success!</strong> Your note has been updated.'
     }
     if(notif == 'editDiscard') {
-        toastAlert.classList.add('text-bg-dark-subtle')
+        toastAlert.classList.add('text-bg-secondary')
         notifText = 'Changes have been discarded'
     }
     if(notif == 'editDelete') {
-        toastAlert.classList.add('text-bg-success-subtle')
+        toastAlert.classList.add('text-bg-success')
         notifText = '<strong>Success!</strong> Your note has been deleted.'
     }
     if(notif) {
