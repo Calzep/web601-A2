@@ -1,16 +1,17 @@
 const express = require('express')
-
-const router = express()
+const multer = require('multer')
 
 //Data model
 const Note = require('../models/note.js')
+
+const router = express()
+const upload = multer()
 
 //SECTION - HTTP method handlers
 
 //Retrieve all notes
 router.get('/', async (req, res) => {
     const noteList = await Note.find()
-
     if(noteList) {
         res.status(200).send(noteList)
     } else {
@@ -29,11 +30,11 @@ router.get('/:id', async (req, res) => {
 })
 
 //Save Note
-router.post('/', async (req, res) => {
+router.post('/', upload.none(), async (req, res) => {
     let note = new Note ({
         userId: 1,  //REVIEW replace with current user when implementing authentication
         title: req.body.title,
-        body: req.body.body,
+        content: req.body.content,
         date: new Date()
     })
     note = await note.save()
@@ -49,7 +50,7 @@ router.post('/', async (req, res) => {
 router.put('/:id', async (req, res) => {
     const note = await Note.findByIdAndUpdate(req.params.id, {
         title: req.body.title,
-        body: req.body.body,
+        content: req.body.content,
         date: new Date()
     }, {
         new: true
