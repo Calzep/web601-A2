@@ -17,12 +17,20 @@ const load = async () => {
 
     } catch (err) {
         console.error("Error retrieving notes", err)//REVIEW include error notifs here
-        return null
+        
+        //Display toast notification
+        toastAlert.classList.add('text-bg-danger')
+        toastText.innerHTML = '<strong>Error!</strong> Unable to fetch note for editing.'
+        const toast = new bootstrap.Toast(toastAlert)
+        toast.show()
     }
 }
 
 const discard = () => {
-    window.location.replace("../landing/landing.html")
+    //Parameters for toast notifications
+    var params = new URLSearchParams()
+    params.append("notif", "editDiscard")
+    window.location.href = "../landing/landing.html?" + params.toString()
 }
 
 const update = async (event) => {
@@ -44,10 +52,21 @@ const update = async (event) => {
         })
         .then(data => {//REVIEW Place user notifications here!
             console.log("Data", data)
-            window.location.href = "../landing/landing.html"
+
+            //Parameters for toast notifications
+            var params = new URLSearchParams()
+            params.append("notif", "editSuccess")
+            window.location.href = "../landing/landing.html?" + params.toString()
         })
         .catch(err => {
             console.error('Error:', err)
+
+            
+            //Display toast notification
+            toastAlert.classList.add('text-bg-danger')
+            toastText.innerHTML = '<strong>Error!</strong> Unable to update note.'
+            const toast = new bootstrap.Toast(toastAlert)
+            toast.show()
         })
 }
 
@@ -66,10 +85,20 @@ const deleteNote = async () => {
         })
         .then(data => {//REVIEW Place user notifications here!
             console.log("Data", data)
-            window.location.href = "../landing/landing.html"
+            
+            //Parameters for toast notifications
+            var params = new URLSearchParams()
+            params.append("notif", "editDelete")
+            window.location.href = "../landing/landing.html?" + params.toString()
         })
         .catch(err => {
             console.error('Error:', err)
+
+            //Display toast notification
+            toastAlert.classList.add('text-bg-danger')
+            toastText.innerHTML = '<strong>Error!</strong> Unable to delete note.'
+            const toast = new bootstrap.Toast(toastAlert)
+            toast.show()
         })
 }
 
@@ -90,9 +119,9 @@ const deleteBtn = document.getElementById('deleteBtn')
 
 const titleEntry = document.getElementById('titleEntry')
 const contentEntry = document.getElementById('contentEntry')
-const noteId = document.getElementById('noteId')
-const deleteNoteInput = document.getElementById('deleteNote')
 const editNoteForm = document.getElementById('editNoteForm')
+const toastAlert = document.getElementById('toastAlert')
+const toastText = document.getElementById('toastText')
 
 //SECTION event listeners
 
