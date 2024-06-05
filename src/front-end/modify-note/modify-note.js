@@ -1,22 +1,27 @@
 //SECTION functions
 
+//Attempts to load the note selected on the ladning page
 const load = async () => {
+    //Gets the targeted note through URL parameters
     var params = new URLSearchParams(window.location.search)
     id = params.get("id")
 
+    //Attempts to call GET api
     try {
         let response = await fetch(`${apiUrl}/${id}`)
         if(!response.ok) {
             throw new Error('Network response was not OK')
         }
 
+        //if successful, populate form with note data
         let note = await response.json()
         console.log(note)
         titleEntry.value = note.title
         contentEntry.value = note.content
 
     } catch (err) {
-        console.error("Error retrieving notes", err)//REVIEW include error notifs here
+        //if unsuccessful, display an error notification
+        console.error("Error retrieving notes", err)
         
         //Display toast notification
         toastAlert.classList.add('text-bg-danger')
@@ -26,6 +31,7 @@ const load = async () => {
     }
 }
 
+//Abandons note edits
 const discard = () => {
     //Parameters for toast notifications
     var params = new URLSearchParams()
@@ -33,16 +39,20 @@ const discard = () => {
     window.location.href = "../landing/landing.html?" + params.toString()
 }
 
+//Attempts to update the targeted note
 const update = async (event) => {
     event.preventDefault()
 
+    //Gets form input data
     let formData = new FormData(editNoteForm)
 
+    //Prepares options for api call
     let requestOptions = {
         method: 'PUT',
         body: formData
     }
 
+    //Attempts to call PUT api
     await fetch(`${apiUrl}/${id}`, requestOptions)
         .then(res => {
             if(!res.ok) {
@@ -50,15 +60,17 @@ const update = async (event) => {
             }
             return res.text()
         })
-        .then(data => {//REVIEW Place user notifications here!
+        .then(data => {
+            //If successful, redirects to landing page
             console.log("Data", data)
 
-            //Parameters for toast notifications
+            //Parameters for toast notification on landing page
             var params = new URLSearchParams()
             params.append("notif", "editSuccess")
             window.location.href = "../landing/landing.html?" + params.toString()
         })
         .catch(err => {
+            //if unsuccessful, display an error notification
             console.error('Error:', err)
 
             
@@ -70,12 +82,15 @@ const update = async (event) => {
         })
 }
 
+//Attempt to delete targeted note
 const deleteNote = async () => {
 
+    //prepare options for api call
     let requestOptions = {
         method: 'DELETE',
     }
 
+    //Attempts to call DELETE api
     await fetch(`${apiUrl}/${id}`, requestOptions)
         .then(res => {
             if(!res.ok) {
@@ -83,15 +98,17 @@ const deleteNote = async () => {
             }
             return res.text()
         })
-        .then(data => {//REVIEW Place user notifications here!
+        .then(data => {
+            //If successful, redirects to landing page
             console.log("Data", data)
             
-            //Parameters for toast notifications
+            //Parameters for toast notification on landing page
             var params = new URLSearchParams()
             params.append("notif", "editDelete")
             window.location.href = "../landing/landing.html?" + params.toString()
         })
         .catch(err => {
+            //if unsuccessful, display an error notification
             console.error('Error:', err)
 
             //Display toast notification

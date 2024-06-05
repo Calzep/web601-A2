@@ -1,5 +1,6 @@
 //SECTION functions
 
+//Populates the options in the dropdown menu
 const setFilterOptions = (options) => {
     let htmlOptions = []
 
@@ -10,21 +11,26 @@ const setFilterOptions = (options) => {
     dateFilter.innerHTML = htmlOptions.join('')
 }
 
+//Calculate a date n days in the past
 const getPastDate = (days) => {
     let date = new Date();
     date.setDate(date.getDate() - days)
     return new Date(date)
 }
 
+//Update display when the date filter is changed
 const dateFilterChanged = async () => {
     await displayNotes()
 }
 
+//Display a toast notification on page load if required
+//Based on URl parameter 'notif'
 const getToastNotif = () => {
     var params = new URLSearchParams(window.location.search)
     let notif = params.get("notif")
     let notifText
 
+    //Determine how to render the notification 
     if(notif == 'createSuccess') {
         toastAlert.classList.add('text-bg-success')
         notifText = '<strong>Success!</strong> Successfully created new note.'
@@ -44,7 +50,8 @@ const getToastNotif = () => {
     if(notif == 'editDelete') {
         toastAlert.classList.add('text-bg-success')
         notifText = '<strong>Success!</strong> Your note has been deleted.'
-    }
+    } 
+    //Check if the notification should be rendered
     if(notif) {
         toastText.innerHTML = notifText
         const toast = new bootstrap.Toast(toastAlert)
@@ -52,6 +59,7 @@ const getToastNotif = () => {
     }
 }
 
+//Attempts to call get API 
 const retrieveNotes = async () => {
     try {
         let response = await fetch(apiUrl)
@@ -59,9 +67,11 @@ const retrieveNotes = async () => {
             throw new Error('Network response was not OK')
         }
 
+        //If successful, returns a list of notes sent by the back end
         let notes = await response.json()
         return notes
     } catch (err) {
+        //If unsuccessful, displays an error notification
         console.error("Error retrieving notes", err)
 
         //Display toast notification
@@ -72,6 +82,7 @@ const retrieveNotes = async () => {
     }
 }
 
+//Formats notes into html cards to display on page
 const displayNotes = async () => {
     let notes = await retrieveNotes()
 
@@ -88,6 +99,7 @@ const displayNotes = async () => {
 
     let noteCards = []
 
+    //Create html cards
     notes.forEach(note => {
         if(note.date.toISOString() > dateFilterOptions[dateFilter.value][1].toISOString()){
             noteCards.push(`<div id="${note._id}" class="note">
@@ -112,6 +124,7 @@ const newNote = () => {
 }
 
 const editNote = (event) => {
+    //Gets the id of the targeted note
     let id = event.target.parentElement.id
 
     //Pass id to url search params
@@ -128,6 +141,7 @@ const apiUrl = config.server + config.api + config.notesRoute
 
 let notes = []
 
+//The options that populate the dropdown
 const dateFilterOptions = [
     ['All time', new Date('1901-12-13T00:00:00.000Z')],
     ['last 3 days', getPastDate(3)],

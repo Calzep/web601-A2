@@ -1,3 +1,5 @@
+//Dummy data for testing without database
+
 let noteTestData =  [
     {
         id: 1,

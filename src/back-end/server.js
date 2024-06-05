@@ -29,9 +29,10 @@ app.use(`/api/notes`, noteRoutes)
 
 //SECTION - Database connection
 
-//MongoDB URI
+//Establish mongo promises as global promises
 mongoose.promise = global.promise
 
+//Attempt to connect to the mongo db using mongoose, sending an error if failed.
 mongoose.connect(config.atlas_uri, {
     useUnifiedTopology: true,
     useNewUrlParser: true,
@@ -47,10 +48,12 @@ mongoose.connect(config.atlas_uri, {
 
 
 //SECTION - Host server
+//Send message to show server connection
 app.get('/', (req, res) => {
     res.status(200).send("Connected to server")
 })
 
+//Host on port X
 app.listen(port, () => {
     console.log(`Live on port ${port}`)
 })

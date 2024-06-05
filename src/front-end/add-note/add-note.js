@@ -1,7 +1,9 @@
 //SECTION functions
 
+//Abandon note creation
 const discard = () => {
-    //Params for toast notification
+
+    //Set URL params to display toast notification on landing page
     var params = new URLSearchParams()
     params.append("notif", "createDiscard")
     window.location.replace("../landing/landing.html?" + params.toString())
@@ -14,13 +16,16 @@ const logout = () => {
 const save = async (event) => {
     event.preventDefault()
 
+    //Retrieve data from form inputs
     let formData = new FormData(newNoteForm)
 
+    //Prepare API call options
     let requestOptions = {
         method: 'POST',
         body: formData
     }
 
+    //Attempt to call post api
     await fetch(apiUrl, requestOptions)
         .then(res => {
             if(!res.ok) {
@@ -28,7 +33,8 @@ const save = async (event) => {
             }
             return res.text()
         })
-        .then(data => {//REVIEW Place user notifications here!
+        .then(data => {
+            //If successful, redirect to landing page and display success notification
             console.log("Data", data)
 
             //Parameters for toast notifications
@@ -37,6 +43,7 @@ const save = async (event) => {
             window.location.href = "../landing/landing.html?" + params.toString()
         })
         .catch(err => {
+            //If unsuccessful, display an error notification and remain on page
             console.error('Error:', err)
 
             //Display toast notification

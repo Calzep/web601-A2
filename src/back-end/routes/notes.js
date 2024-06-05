@@ -1,3 +1,4 @@
+//SECTION -  Imports
 const express = require('express')
 const multer = require('multer')
 
@@ -5,11 +6,13 @@ const multer = require('multer')
 const Note = require('../models/note.js')
 
 const router = express()
+//Enables processing of html forms
 const upload = multer()
 
 //SECTION - HTTP method handlers
 
 //Retrieve all notes
+//Attempts to send all notes from the database, sending an error if failed.
 router.get('/', async (req, res) => {
     const noteList = await Note.find()
     if(noteList) {
@@ -18,7 +21,9 @@ router.get('/', async (req, res) => {
         res.status(500).json({success:false, message: "Could not retrieve notes list"})
     }
 })
+
 //Find one note
+//Attempts to send a single note from the database, sending an error if failed.
 router.get('/:id', async (req, res) => {
     let note = await Note.findById(req.params.id)
     
@@ -30,6 +35,7 @@ router.get('/:id', async (req, res) => {
 })
 
 //Save Note
+//Attempts to save a note to the database sending an error if failed.
 router.post('/', upload.none(), async (req, res) => {
     let note = new Note ({
         userId: 1,  //REVIEW replace with current user when implementing authentication
@@ -47,6 +53,7 @@ router.post('/', upload.none(), async (req, res) => {
 })
 
 //Update note
+//Attempts to update a note to the database, sending an error if failed.
 router.put('/:id', upload.none(), async (req, res) => {
     let note = await Note.findByIdAndUpdate(req.params.id, {
         title: req.body.title,
@@ -64,6 +71,7 @@ router.put('/:id', upload.none(), async (req, res) => {
 })
 
 //Delete note
+//Attempts to remove a note from the database, sending an error if failed.
 router.delete('/:id', upload.none(), async (req, res) => {
     Note.findByIdAndDelete(req.params.id).then(note => {
         if(note) {
