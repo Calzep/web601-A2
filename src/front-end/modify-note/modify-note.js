@@ -2,7 +2,7 @@
 
 const loadNote = (note) => {
     titleEntry.value = note.title
-    bodyEntry.value = note.body
+    contentEntry.value = note.content
     noteId.value = note.id
     deleteNoteInput.value = 'false'
 }
@@ -26,7 +26,7 @@ let testNote = {
     id: 1,
     userId: 1,
     title: "test note",
-    body: "note text note text Spelling misatke note text note text note text",
+    content: "note text note text Spelling misatke note text note text note text",
     date: new Date('2024-05-25T02:41:30.546Z')
 }
 
@@ -35,7 +35,7 @@ const logoutBtn = document.getElementById('logoutBtn')
 const deleteBtn = document.getElementById('deleteBtn')
 
 const titleEntry = document.getElementById('titleEntry')
-const bodyEntry = document.getElementById('bodyEntry')
+const contentEntry = document.getElementById('contentEntry')
 const noteId = document.getElementById('noteId')
 const deleteNoteInput = document.getElementById('deleteNote')
 
