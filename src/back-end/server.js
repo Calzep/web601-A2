@@ -25,18 +25,20 @@ const noteRoutes = require('./routes/notes.js')
 app.use(`${api}/notes`, noteRoutes)
 
 //SECTION - Database connection
-const dbConfig = require('./config/database.config.js')
 
-mongoose.connect(dbConfig.uri, {
-    'useNewUrlParser': true,
-    'useUnifiedTopology': true,
-}).then (() => {
-    console.log(`Connection established with mongoDB ${dbConfig.uri}`)
-}).catch ((err) => {
-    console.error (`Could not connect to ${dbConfig.uri}.  Exiting process`)
-    console.error(err)
-    process.exit()
-})
+//MongoDB URI
+const uri = 'mongodb://localhost:27017/noteDB';
+
+mongoose.connect(uri)
+    .then(() => {
+        console.log(`Connection established with MongoDB at ${uri}`);
+    })
+    .catch((err) => {
+        console.error(`Could not connect to ${uri}. Exiting process`);
+        console.error(err);
+        process.exit(1);
+    });
+
 
 //SECTION - Host server
 
