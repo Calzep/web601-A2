@@ -28,8 +28,8 @@ const save = async (event) => {
         .then(data => {//REVIEW Place user notifications here!
             //responseMessage.textContent = data
         })
-        .catch(error => {
-            console.error('Error', error)
+        .catch(err => {
+            console.error('Error:', err)
         })
 }
 
