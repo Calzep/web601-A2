@@ -1,7 +1,10 @@
 //SECTION functions
 
 const discard = () => {
-    window.location.replace("../landing/landing.html")
+    //Params for toast notification
+    var params = new URLSearchParams()
+    params.append("notif", "createDiscard")
+    window.location.replace("../landing/landing.html?" + params.toString())
 }
 
 const logout = () => {
@@ -27,10 +30,20 @@ const save = async (event) => {
         })
         .then(data => {//REVIEW Place user notifications here!
             console.log("Data", data)
-            window.location.href = "../landing/landing.html"
+
+            //Parameters for toast notifications
+            var params = new URLSearchParams()
+            params.append("notif", "createSuccess")
+            window.location.href = "../landing/landing.html?" + params.toString()
         })
         .catch(err => {
             console.error('Error:', err)
+
+            //Display toast notification
+            toastAlert.classList.add('text-bg-danger')
+            toastText.innerHTML = '<strong>Error!</strong> Unable to save note.'
+            const toast = new bootstrap.Toast(toastAlert)
+            toast.show()
         })
 }
 
@@ -43,6 +56,8 @@ const apiUrl = config.server + config.api + config.notesRoute
 const discardBtn = document.getElementById('discardBtn')
 const logoutBtn = document.getElementById('logoutBtn')
 const newNoteForm = document.getElementById('newNoteForm')
+const toastAlert = document.getElementById('toastAlert')
+const toastText = document.getElementById('toastText')
 
 //SECTION event listeners
 
