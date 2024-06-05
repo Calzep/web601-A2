@@ -23,10 +23,11 @@ const save = async (event) => {
             if(!res.ok) {
                 throw new Error('Network response was not OK')
             }
-            return response.text()
+            return res.text()
         })
         .then(data => {//REVIEW Place user notifications here!
-            //responseMessage.textContent = data
+            console.log("Data", data)
+            window.location.href = "../landing/landing.html"
         })
         .catch(err => {
             console.error('Error:', err)

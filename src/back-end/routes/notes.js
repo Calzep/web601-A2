@@ -40,7 +40,7 @@ router.post('/', upload.none(), async (req, res) => {
     note = await note.save()
     
     if(note) {
-        res.status(200)
+        res.status(200).send("Note saved to database")
     } else {
         res.status(404).send("Error, Note could not be saved")
     }
