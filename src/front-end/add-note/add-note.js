@@ -8,7 +8,7 @@ const logout = () => {
     console.log("not implemented")
 }
 
-const save = (event) => {
+const save = async (event) => {
     event.preventDefault()
 
     let formData = new FormData(newNoteForm)
@@ -18,7 +18,7 @@ const save = (event) => {
         body: formData
     }
 
-    fetch(apiUrl, requestOptions)
+    await fetch(apiUrl, requestOptions)
         .then(res => {
             if(!res.ok) {
                 throw new Error('Network response was not OK')
