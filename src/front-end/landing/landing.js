@@ -58,7 +58,7 @@ const displayNotes = async () => {
             <p class="dull date">${note.date.toLocaleDateString()}</p>
             <hr>
             <p class="default">${note.content}</p>
-            <a href=""><p>edit note</p></a>
+            <button class="editBtn">edit note</button>
         </div>`)
         }
     })
@@ -74,6 +74,16 @@ const newNote = () => {
     window.location.replace("../add-note/add-note.html")
 }
 
+const editNote = (event) => {
+    let id = event.target.parentElement.id
+
+    //Pass id to url search params
+    var params = new URLSearchParams()
+    params.append("id", id)
+
+    //redirect to edit page passing search parameters
+    location.href = '../modify-note/modify-note.html?' + params.toString()
+}
 //SECTION variables and constants
 import config from '../config/config.js'
 
@@ -96,6 +106,7 @@ const dateFilter = document.getElementById('dateFilter')
 const logoutBtn = document.getElementById('logoutBtn')
 const newNoteBtn = document.getElementById('newNoteBtn')
 
+
 //SECTION Page load
 setFilterOptions(dateFilterOptions)
 
@@ -105,4 +116,8 @@ displayNotes()
 dateFilter.addEventListener("change", dateFilterChanged)
 logoutBtn.addEventListener("click", logout)
 newNoteBtn.addEventListener("click", newNote)
-
+noteContainer.addEventListener("click", function (event) {
+    if(event.target.classList.contains('editBtn')) {
+        editNote(event)
+    }
+})
