@@ -1,10 +1,28 @@
 //SECTION functions
 
-const loadNote = (note) => {
-    titleEntry.value = note.title
-    contentEntry.value = note.content
-    noteId.value = note.id
-    deleteNoteInput.value = 'false'
+const loadNote = async () => {
+    var params = new URLSearchParams(window.location.search)
+    let id = params.get("id")
+
+    try {
+        let response = await fetch(`${apiUrl}/${id}`)
+        if(!response.ok) {
+            throw new Error('Network response was not OK')
+        }
+
+        let note = await response.json()
+        console.log(note)
+        titleEntry.value = note.title
+        contentEntry.value = note.content
+        noteId.value = note.id
+        deleteNoteInput.value = 'false'
+
+    } catch (err) {
+        console.error("Error retrieving notes", err)//REVIEW include error notifs here
+        return null
+    }
+
+    
 }
 
 const discard = () => {
@@ -22,13 +40,9 @@ const logout = () => {
 
 
 //SECTION variables and constants
-let testNote = {
-    id: 1,
-    userId: 1,
-    title: "test note",
-    content: "note text note text Spelling misatke note text note text note text",
-    date: new Date('2024-05-25T02:41:30.546Z')
-}
+import config from '../config/config.js'
+
+const apiUrl = config.server + config.api + config.notesRoute
 
 const discardBtn = document.getElementById('discardBtn')
 const logoutBtn = document.getElementById('logoutBtn')
@@ -47,4 +61,4 @@ deleteBtn.addEventListener('click', deleteNote)
 
 //SECTION Page Load
 
-loadNote(testNote)
+loadNote()
