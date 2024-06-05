@@ -31,11 +31,10 @@ router.get('/:id', async (req, res) => {
 //Save Note
 router.post('/', async (req, res) => {
     let note = new Note ({
-        id: req.body.id,
-        userId: req.body.userId,
+        userId: 1,  //REVIEW replace with current user when implementing authentication
         title: req.body.title,
         body: req.body.body,
-        date: req.body.date
+        date: new Date()
     })
     note = await note.save()
     
@@ -49,11 +48,9 @@ router.post('/', async (req, res) => {
 //Update note
 router.put('/:id', async (req, res) => {
     const note = await Note.findByIdAndUpdate(req.params.id, {
-        id: req.body.id,
-        userId: req.body.userId,
         title: req.body.title,
         body: req.body.body,
-        date: req.body.date
+        date: new Date()
     }, {
         new: true
     })
