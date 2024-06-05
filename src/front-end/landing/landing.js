@@ -20,7 +20,7 @@ const dateFilterChanged = async () => {
     await displayNotes()
 }
 
-const showToastNotif = () => {
+const getToastNotif = () => {
     var params = new URLSearchParams(window.location.search)
     let notif = params.get("notif")
     let notifText
@@ -150,7 +150,7 @@ setFilterOptions(dateFilterOptions)
 
 displayNotes()
 
-showToastNotif()
+getToastNotif()
 
 //SECTION Event listeners
 dateFilter.addEventListener("change", dateFilterChanged)
