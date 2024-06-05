@@ -25,7 +25,7 @@ app.use(bodyParser.urlencoded({extended: true}))
 const noteRoutes = require('./routes/notes.js')
 
 //use routers
-app.use(`api/notes`, noteRoutes)
+app.use(`/api/notes`, noteRoutes)
 
 //SECTION - Database connection
 
@@ -47,6 +47,9 @@ mongoose.connect(config.atlas_uri, {
 
 
 //SECTION - Host server
+app.get('/', (req, res) => {
+    res.status(200).send("Connected to server")
+})
 
 app.listen(port, () => {
     console.log(`Live on port ${port}`)
