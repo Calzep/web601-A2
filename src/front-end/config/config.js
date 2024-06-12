@@ -5,7 +5,7 @@ const config = {
     server :"http://localhost:3000",
     api : "/api",
     notesRoute : "/notes",
-    authenticationRoute: "/auth",
+    authRoute: "/auth",
     loginEndPoint: "/login",
     signupEndPoint: "/signup"
 }

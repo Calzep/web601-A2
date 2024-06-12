@@ -23,9 +23,11 @@ app.use(bodyParser.urlencoded({extended: true}))
 
 //SECTION - Routers
 const noteRoutes = require('./routes/notes.js')
+const authRoutes = require('./routes/auth.js')
 
 //use routers
-app.use(`/api/notes`, noteRoutes)
+app.use('/api/notes', noteRoutes)
+app.use('api/auth', authRoutes)
 
 //SECTION - Database connection
 
