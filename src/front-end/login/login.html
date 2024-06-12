@@ -20,16 +20,16 @@
             <div class="loginForm">
                 <h2>Log in to your account</h2>
                 <label for="usernameEntry">Email
-                    <input id="usernameEntry" name="username" type="text" required placeholder="your username" autocomplete="username">
+                    <input id="usernameEntry" name="username" type="text" required maxlength="20" minlength="8" placeholder="your username" autocomplete="username">
                 </label>
                 <label for="passwordEntry">Password
-                    <input id="passwordEntry" name="password" type="password" required placeholder="********" autocomplete="current-password">
+                    <input id="passwordEntry" name="password" type="password" required maxlength="100" minlength="8" placeholder="*******************" autocomplete="current-password">
                 </label>
-                <button id="loginSubmitBtn" class="actionBtn">
+                <button id="loginBtn" class="actionBtn" type="button">
                     Log In
                 </button>
                 <p id="createAccountTxt" class="dull">Don't have an account?</p>
-                <button id="createSubmitBtn" class="actionBtn">
+                <button id="createBtn" class="actionBtn" type="button">
                     Create New Account
                 </button>
             </div>
