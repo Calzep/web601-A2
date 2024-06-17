@@ -64,11 +64,7 @@ router.post('/login', upload.none(), async (req, res) => {
         const accessToken = generateAccessToken(user.username)
         const refreshToken = jwt.sign(user.username, config.jwt_refresh_secret)
     
-        if(user) {
-            res.status(200).json({accessToken:accessToken, refreshToken:refreshToken})
-        } else {
-            res.status(500).json({message:"Error, could not save tokens"})
-        }
+        res.status(200).json({accessToken:accessToken, refreshToken:refreshToken})
 
     } catch (err) {
         console.error(err)
