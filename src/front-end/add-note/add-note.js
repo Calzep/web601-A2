@@ -6,7 +6,6 @@ const discard = () => {
     //Set URL params to display toast notification on landing page
     var params = new URLSearchParams()
     params.append("notif", "createDiscard")
-    params.append("user", user)
     window.location.href = "../landing/landing.html?" + params.toString()
 }
 
@@ -67,9 +66,6 @@ const logoutBtn = document.getElementById('logoutBtn')
 const newNoteForm = document.getElementById('newNoteForm')
 const toastAlert = document.getElementById('toastAlert')
 const toastText = document.getElementById('toastText')
-
-var params = new URLSearchParams(window.location.search)
-let user = params.get("user")
 
 //SECTION event listeners
 

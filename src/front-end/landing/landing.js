@@ -119,9 +119,7 @@ const logout = () => {
 }
 
 const newNote = () => {
-    params = new URLSearchParams()
-    params.append("user", user)
-    location.href = "../add-note/add-note.html?" + params.toString()
+    location.href = "../add-note/add-note.html"
 }
 
 const editNote = (event) => {
@@ -131,7 +129,6 @@ const editNote = (event) => {
     //Pass id to url search params
     params = new URLSearchParams()
     params.append("id", id)
-    params.append("user", user)
     //redirect to edit page passing search parameters
     location.href = '../modify-note/modify-note.html?' + params.toString()
 }
@@ -160,7 +157,7 @@ const toastAlert = document.getElementById('toastAlert')
 const toastText = document.getElementById('toastText')
 
 var params = new URLSearchParams(window.location.search)
-let user = params.get("user")
+
 
 //SECTION Page load
 setFilterOptions(dateFilterOptions)

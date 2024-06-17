@@ -5,7 +5,6 @@ const load = async () => {
     //Gets the targeted note through URL parameters
     var params = new URLSearchParams(window.location.search)
     id = params.get("id")
-    user = params.get("user")
 
     //Attempts to call GET api
     try {
@@ -37,7 +36,6 @@ const discard = () => {
     //Parameters for toast notifications
     var params = new URLSearchParams()
     params.append("notif", "editDiscard")
-    params.append("user", user)
     window.location.href = "../landing/landing.html?" + params.toString()
 }
 
@@ -69,7 +67,6 @@ const update = async (event) => {
             //Parameters for toast notification on landing page
             var params = new URLSearchParams()
             params.append("notif", "editSuccess")
-            params.append("user", user)
             window.location.href = "../landing/landing.html?" + params.toString()
         })
         .catch(err => {
@@ -108,7 +105,6 @@ const deleteNote = async () => {
             //Parameters for toast notification on landing page
             var params = new URLSearchParams()
             params.append("notif", "editDelete")
-            params.append("user", user)
             window.location.href = "../landing/landing.html?" + params.toString()
         })
         .catch(err => {
@@ -133,7 +129,6 @@ import config from '../config/config.js'
 
 const apiUrl = config.server + config.api + config.notesRoute
 let id = 0
-let user
 
 const discardBtn = document.getElementById('discardBtn')
 const logoutBtn = document.getElementById('logoutBtn')

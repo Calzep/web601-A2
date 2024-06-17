@@ -63,16 +63,9 @@ router.post('/login', upload.none(), async (req, res) => {
 
         const accessToken = generateAccessToken(user.username)
         const refreshToken = jwt.sign(user.username, config.jwt_refresh_secret)
-
-        user = await User.findByIdAndUpdate(user.id, {
-            accessToken: accessToken,
-            refreshToken: refreshToken
-        }, {
-            new: true
-        })
     
         if(user) {
-            res.status(200).json({message:'Logged in successfully', userId:user.id})
+            res.status(200).json({accessToken:accessToken, refreshToken:refreshToken})
         } else {
             res.status(500).json({message:"Error, could not save tokens"})
         }
