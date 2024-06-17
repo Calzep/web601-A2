@@ -17,7 +17,6 @@ const upload = multer()
 //Retrieve all notes
 //Attempts to send all notes from the database, sending an error if failed.
 router.get('/', authenticateToken, async (req, res) => {
-    console.log(req.user)
     const noteList = await Note.find({userId: req.user.id})
     if(noteList) {
         res.status(200).send(noteList)
@@ -40,9 +39,9 @@ router.get('/:id', async (req, res) => {
 
 //Save Note
 //Attempts to save a note to the database sending an error if failed.
-router.post('/', upload.none(), async (req, res) => {
+router.post('/', authenticateToken, upload.none(), async (req, res) => {
     let note = new Note ({
-        userId: 1,  //REVIEW replace with current user when implementing authentication
+        userId: req.user.id,
         title: req.body.title,
         content: req.body.content,
         date: new Date()

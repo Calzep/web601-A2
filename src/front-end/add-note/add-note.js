@@ -22,6 +22,9 @@ const save = async (event) => {
     //Prepare API call options
     let requestOptions = {
         method: 'POST',
+        headers: {
+            'authorization': 'Bearer ' + localStorage.getItem('accessToken')
+        },
         body: formData
     }
 
@@ -40,7 +43,6 @@ const save = async (event) => {
             //Parameters for toast notifications
             var params = new URLSearchParams()
             params.append("notif", "createSuccess")
-            params.append("user", user)
             window.location.href = "../landing/landing.html?" + params.toString()
         })
         .catch(err => {
