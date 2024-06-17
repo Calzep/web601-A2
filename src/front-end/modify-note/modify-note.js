@@ -6,22 +6,26 @@ const load = async () => {
     var params = new URLSearchParams(window.location.search)
     id = params.get("id")
 
-    //Attempts to call GET api
-    try {
-        let response = await fetch(`${apiUrl}/${id}`)
-        if(!response.ok) {
-            throw new Error('Network response was not OK')
+    let requestOptions = {
+        method: 'GET',
+        headers: {
+            'authorization': 'Bearer ' + localStorage.getItem('accessToken')
         }
+    }
 
+    //Attempts to call GET api
+    let response = await fetch(`${apiUrl}/${id}`, requestOptions)
+
+    const data = await response.json()
+    if(response.ok) {
         //if successful, populate form with note data
-        let note = await response.json()
-        console.log(note)
+        let note = data.note
         titleEntry.value = note.title
         contentEntry.value = note.content
 
-    } catch (err) {
+    } else {
         //if unsuccessful, display an error notification
-        console.error("Error retrieving notes", err)
+        console.error("Error retrieving notes:", data.message)
         
         //Display toast notification
         toastAlert.classList.add('text-bg-danger')
@@ -49,37 +53,32 @@ const update = async (event) => {
     //Prepares options for api call
     let requestOptions = {
         method: 'PUT',
+        headers: {
+            'authorization': 'Bearer ' + localStorage.getItem('accessToken')
+        },
         body: formData
     }
 
     //Attempts to call PUT api
-    await fetch(`${apiUrl}/${id}`, requestOptions)
-        .then(res => {
-            if(!res.ok) {
-                throw new Error('Network response was not OK')
-            }
-            return res.text()
-        })
-        .then(data => {
-            //If successful, redirects to landing page
-            console.log("Data", data)
+    let response = await fetch(`${apiUrl}/${id}`, requestOptions)
+    
+    const data = await response.json()
+    if(response.ok) {
+        //If successful, redirects to landing page
+        //Parameters for toast notification on landing page
+        var params = new URLSearchParams()
+        params.append("notif", "editSuccess")
+        window.location.href = "../landing/landing.html?" + params.toString()
+    } else {
+        //if unsuccessful, display an error notification
+        console.error('Error updating note:', err)
 
-            //Parameters for toast notification on landing page
-            var params = new URLSearchParams()
-            params.append("notif", "editSuccess")
-            window.location.href = "../landing/landing.html?" + params.toString()
-        })
-        .catch(err => {
-            //if unsuccessful, display an error notification
-            console.error('Error:', err)
-
-            
-            //Display toast notification
-            toastAlert.classList.add('text-bg-danger')
-            toastText.innerHTML = '<strong>Error!</strong> Unable to update note.'
-            const toast = new bootstrap.Toast(toastAlert)
-            toast.show()
-        })
+        //Display toast notification
+        toastAlert.classList.add('text-bg-danger')
+        toastText.innerHTML = '<strong>Error!</strong> Unable to update note.'
+        const toast = new bootstrap.Toast(toastAlert)
+        toast.show()
+    }
 }
 
 //Attempt to delete targeted note
@@ -88,41 +87,36 @@ const deleteNote = async () => {
     //prepare options for api call
     let requestOptions = {
         method: 'DELETE',
+        headers: {
+            'authorization': 'Bearer ' + localStorage.getItem('accessToken')
+        }
     }
 
     //Attempts to call DELETE api
-    await fetch(`${apiUrl}/${id}`, requestOptions)
-        .then(res => {
-            if(!res.ok) {
-                throw new Error('Network response was not OK')
-            }
-            return res.text()
-        })
-        .then(data => {
-            //If successful, redirects to landing page
-            console.log("Data", data)
-            
-            //Parameters for toast notification on landing page
-            var params = new URLSearchParams()
-            params.append("notif", "editDelete")
-            window.location.href = "../landing/landing.html?" + params.toString()
-        })
-        .catch(err => {
-            //if unsuccessful, display an error notification
-            console.error('Error:', err)
+    let response = await fetch(`${apiUrl}/${id}`, requestOptions)
+     
+    const data = response.json()
+    if(response.ok) {
+        //If successful, redirects to landing page
+        //Parameters for toast notification on landing page
+        var params = new URLSearchParams()
+        params.append("notif", "editDelete")
+        window.location.href = "../landing/landing.html?" + params.toString()
+    } else {
+        //if unsuccessful, display an error notification
+        console.error('Error:', err)
 
-            //Display toast notification
-            toastAlert.classList.add('text-bg-danger')
-            toastText.innerHTML = '<strong>Error!</strong> Unable to delete note.'
-            const toast = new bootstrap.Toast(toastAlert)
-            toast.show()
-        })
+        //Display toast notification
+        toastAlert.classList.add('text-bg-danger')
+        toastText.innerHTML = '<strong>Error!</strong> Unable to delete note.'
+        const toast = new bootstrap.Toast(toastAlert)
+        toast.show()
+    }
 }
 
 const logout = () => {
     console.log("not implemented")
 }
-
 
 //SECTION variables and constants
 import config from '../config/config.js'
