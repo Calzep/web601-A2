@@ -7,7 +7,8 @@ const config = {
     notesRoute : "/notes",
     authRoute: "/auth",
     loginEndPoint: "/login",
-    signupEndPoint: "/signup"
+    signupEndPoint: "/signup",
+    logoutEndPoint: "/logout"
 }
 
 export default config

@@ -120,10 +120,6 @@ const displayNotes = async () => {
     noteContainer.innerHTML = noteCards.join('')
 }
 
-const logout = () => {
-    console.log("Not implemented")
-}
-
 const newNote = () => {
     location.href = "../add-note/add-note.html"
 }
@@ -157,7 +153,6 @@ const dateFilterOptions = [
 
 const noteContainer = document.getElementById('noteContainer')
 const dateFilter = document.getElementById('dateFilter')
-const logoutBtn = document.getElementById('logoutBtn')
 const newNoteBtn = document.getElementById('newNoteBtn')
 const toastAlert = document.getElementById('toastAlert')
 const toastText = document.getElementById('toastText')
@@ -176,7 +171,6 @@ getToastNotif()
 
 //SECTION Event listeners
 dateFilter.addEventListener("change", dateFilterChanged)
-logoutBtn.addEventListener("click", logout)
 newNoteBtn.addEventListener("click", newNote)
 noteContainer.addEventListener("click", function (event) {
     if(event.target.classList.contains('editBtn')) {

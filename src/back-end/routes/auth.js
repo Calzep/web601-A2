@@ -10,6 +10,9 @@ const User = require('../models/user')
 const RefreshToken = require('../models/refreshToken')
 
 //Includes middlewares
+const getRefreshToken = require('../middleware/getRefreshToken')
+const { CancellationToken } = require('mongodb')
+
 const router = express()
 
 //Enables processing of html forms
@@ -65,13 +68,13 @@ router.post('/login', upload.none(), async (req, res) => {
         const accessToken = generateAccessToken(user)
         let refreshToken = jwt.sign(user.id, config.jwt_refresh_secret)
 
-        refreshToken = new RefreshToken({
+        rToken = new RefreshToken({
             token : refreshToken
         })
 
-        refreshToken = await refreshToken.save()
-    
-        if(refreshToken) {
+        rToken = await rToken.save()
+
+        if(rToken) {
             res.status(200).json({accessToken:accessToken, refreshToken:refreshToken})
         } else {
             res.status(404).send({message:"Refresh token could not be saved"})
@@ -83,14 +86,16 @@ router.post('/login', upload.none(), async (req, res) => {
     }
 })
 
-router.delete('/logout:token', (req, res) => {
-    token = RefreshToken.findOneAndDelete ({token: req.params.token})
-    
-    if(token) {
-        return res.status(204).json({success: true, message: 'Token deleted'})
-    } else {
-        return res.status(200).json({success: false, message: 'Token not found'})
-    }
+router.delete('/logout', getRefreshToken, (req, res) => {
+    token = RefreshToken.findOneAndDelete ({token: req.token}).then(token => {
+        if(token) {
+            return res.status(200).json({message: 'Token deleted'})
+        } else {
+            return res.status(404).json({message: 'Token not found'})
+        }
+    }).catch((err) => {
+        return res.status(400).json({message: err})
+    })
 })
 
 router.post('/token', async (req, res) => {
