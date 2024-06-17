@@ -46,6 +46,7 @@ const authenticate = async (event) => {
         if (response.ok){
             console.log('Login successful')
             console.log(data)
+            params.append("user", data.userId)
             window.location.href = "../landing/landing.html?" + params.toString()
         } else {
             console.log(`Login failed: ${data.message}`)

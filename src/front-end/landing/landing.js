@@ -26,7 +26,6 @@ const dateFilterChanged = async () => {
 //Display a toast notification on page load if required
 //Based on URl parameter 'notif'
 const getToastNotif = () => {
-    var params = new URLSearchParams(window.location.search)
     let notif = params.get("notif")
     let notifText
 
@@ -120,7 +119,9 @@ const logout = () => {
 }
 
 const newNote = () => {
-    window.location.replace("../add-note/add-note.html")
+    params = new URLSearchParams()
+    params.append("user", user)
+    location.href = "../add-note/add-note.html?" + params.toString()
 }
 
 const editNote = (event) => {
@@ -128,9 +129,9 @@ const editNote = (event) => {
     let id = event.target.parentElement.id
 
     //Pass id to url search params
-    var params = new URLSearchParams()
+    params = new URLSearchParams()
     params.append("id", id)
-
+    params.append("user", user)
     //redirect to edit page passing search parameters
     location.href = '../modify-note/modify-note.html?' + params.toString()
 }
@@ -151,13 +152,15 @@ const dateFilterOptions = [
     ['last year', getPastDate(365)]
 ]
 
-
 const noteContainer = document.getElementById('noteContainer')
 const dateFilter = document.getElementById('dateFilter')
 const logoutBtn = document.getElementById('logoutBtn')
 const newNoteBtn = document.getElementById('newNoteBtn')
 const toastAlert = document.getElementById('toastAlert')
 const toastText = document.getElementById('toastText')
+
+var params = new URLSearchParams(window.location.search)
+let user = params.get("user")
 
 //SECTION Page load
 setFilterOptions(dateFilterOptions)

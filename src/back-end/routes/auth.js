@@ -16,7 +16,7 @@ const upload = multer()
 
 //SECTION - Functions
 const generateAccessToken = (user) => {
-    return jwt.sign({user:user}, config.jwt_access_secret, {expiresIn: '360s'})
+    return jwt.sign({user:user}, config.jwt_access_secret, {expiresIn: '30s'})
 }
 
 //SECTION - Endpoints
@@ -72,7 +72,7 @@ router.post('/login', upload.none(), async (req, res) => {
         })
     
         if(user) {
-            res.status(200).json({message:'Logged in successfully'})
+            res.status(200).json({message:'Logged in successfully', userId:user.id})
         } else {
             res.status(500).json({message:"Error, could not save tokens"})
         }
