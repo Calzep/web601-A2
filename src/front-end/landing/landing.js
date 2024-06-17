@@ -26,7 +26,6 @@ const dateFilterChanged = async () => {
 //Display a toast notification on page load if required
 //Based on URl parameter 'notif'
 const getToastNotif = () => {
-    var params = new URLSearchParams(window.location.search)
     let notif = params.get("notif")
     let notifText
 
@@ -50,6 +49,10 @@ const getToastNotif = () => {
     if(notif == 'editDelete') {
         toastAlert.classList.add('text-bg-success')
         notifText = '<strong>Success!</strong> Your note has been deleted.'
+    }
+    if(notif == 'accountCreate') {
+        toastAlert.classList.add('text-bg-success')
+        notifText = '<strong>Success!</strong> Your account has been created.'
     } 
     //Check if the notification should be rendered
     if(notif) {
@@ -61,18 +64,32 @@ const getToastNotif = () => {
 
 //Attempts to call get API 
 const retrieveNotes = async () => {
-    try {
-        let response = await fetch(apiUrl)
-        if(!response.ok) {
-            throw new Error('Network response was not OK')
-        }
 
+    let requestOptions = {
+        method: 'GET',
+        headers: {
+            'authorization': 'Bearer ' + localStorage.getItem('accessToken')
+        }
+    }
+
+    let response = await fetch(apiUrl, requestOptions)
+    
+    const data = await response.json()
+    if(response.ok) {
         //If successful, returns a list of notes sent by the back end
-        let notes = await response.json()
+        let notes = data
         return notes
-    } catch (err) {
+    } else {
+        //Check if token is invalid
+        if(response.status == 403) {
+            let result = await refresh()
+            if(result.length<0) {
+                localStorage.setItem('accessToken', result)
+                return retrieveNotes()
+            }
+        }
         //If unsuccessful, displays an error notification
-        console.error("Error retrieving notes", err)
+        console.error("Error retrieving notes:", data.message)
 
         //Display toast notification
         toastAlert.classList.add('text-bg-danger')
@@ -115,12 +132,8 @@ const displayNotes = async () => {
     noteContainer.innerHTML = noteCards.join('')
 }
 
-const logout = () => {
-    console.log("Not implemented")
-}
-
 const newNote = () => {
-    window.location.replace("../add-note/add-note.html")
+    location.href = "../add-note/add-note.html"
 }
 
 const editNote = (event) => {
@@ -128,14 +141,14 @@ const editNote = (event) => {
     let id = event.target.parentElement.id
 
     //Pass id to url search params
-    var params = new URLSearchParams()
+    params = new URLSearchParams()
     params.append("id", id)
-
     //redirect to edit page passing search parameters
     location.href = '../modify-note/modify-note.html?' + params.toString()
 }
 //SECTION variables and constants
 import config from '../config/config.js'
+import refresh from '../auth.js'
 
 const apiUrl = config.server + config.api + config.notesRoute
 
@@ -151,13 +164,16 @@ const dateFilterOptions = [
     ['last year', getPastDate(365)]
 ]
 
-
 const noteContainer = document.getElementById('noteContainer')
 const dateFilter = document.getElementById('dateFilter')
-const logoutBtn = document.getElementById('logoutBtn')
 const newNoteBtn = document.getElementById('newNoteBtn')
 const toastAlert = document.getElementById('toastAlert')
 const toastText = document.getElementById('toastText')
+
+var params = new URLSearchParams(window.location.search)
+const accessToken = localStorage.getItem('accessToken')
+const refreshToken = localStorage.getItem('refreshToken')
+
 
 //SECTION Page load
 setFilterOptions(dateFilterOptions)
@@ -168,7 +184,6 @@ getToastNotif()
 
 //SECTION Event listeners
 dateFilter.addEventListener("change", dateFilterChanged)
-logoutBtn.addEventListener("click", logout)
 newNoteBtn.addEventListener("click", newNote)
 noteContainer.addEventListener("click", function (event) {
     if(event.target.classList.contains('editBtn')) {

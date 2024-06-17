@@ -6,7 +6,7 @@ const discard = () => {
     //Set URL params to display toast notification on landing page
     var params = new URLSearchParams()
     params.append("notif", "createDiscard")
-    window.location.replace("../landing/landing.html?" + params.toString())
+    window.location.href = "../landing/landing.html?" + params.toString()
 }
 
 const logout = () => {
@@ -22,6 +22,9 @@ const save = async (event) => {
     //Prepare API call options
     let requestOptions = {
         method: 'POST',
+        headers: {
+            'authorization': 'Bearer ' + localStorage.getItem('accessToken')
+        },
         body: formData
     }
 

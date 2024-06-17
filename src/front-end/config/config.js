@@ -3,8 +3,13 @@
 
 const config = {
     server :"http://localhost:3000",
-    api : '/api',
-    notesRoute : "/notes"
+    api : "/api",
+    notesRoute : "/notes",
+    authRoute: "/auth",
+    loginEndPoint: "/login",
+    signupEndPoint: "/signup",
+    logoutEndPoint: "/logout",
+    refreshEndPoint: "/token"
 }
 
 export default config
