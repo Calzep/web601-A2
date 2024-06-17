@@ -5,6 +5,9 @@ const multer = require('multer')
 //Data model
 const Note = require('../models/note.js')
 
+//Middleware
+const authenticateToken = require('../middleware/auth.js')
+
 const router = express()
 //Enables processing of html forms
 const upload = multer()
@@ -13,8 +16,8 @@ const upload = multer()
 
 //Retrieve all notes
 //Attempts to send all notes from the database, sending an error if failed.
-router.get('/', async (req, res) => {
-    const noteList = await Note.find()
+router.get('/', authenticateToken, async (req, res) => {
+    const noteList = await Note.find({userId: req.user.name}) //NOTE this probably won't work
     if(noteList) {
         res.status(200).send(noteList)
     } else {

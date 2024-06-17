@@ -29,7 +29,7 @@ const userRoutes = require('./routes/users.js')
 //use routers
 app.use('/api/notes', noteRoutes)
 app.use('/api/auth', authRoutes)
-app.use('/api/users', userRoutes)
+//app.use('/api/users', userRoutes)
 
 
 //SECTION - Database connection

@@ -1,5 +1,7 @@
 GET http://localhost:3000/api/users
 
+###!SECTION
+
 POST http://localhost:3000/api/users
 Content-Type: application/json
 
