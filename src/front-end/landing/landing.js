@@ -76,6 +76,14 @@ const retrieveNotes = async () => {
         let notes = data
         return notes
     } else {
+        //Check if token is invalid
+        if(response.status == 403) {
+            let result = await refresh()
+            if(result.length<0) {
+                localStorage.setItem('accessToken', result)
+                return retrieveNotes()
+            }
+        }
         //If unsuccessful, displays an error notification
         console.error("Error retrieving notes:", data.message)
 
@@ -136,6 +144,7 @@ const editNote = (event) => {
 }
 //SECTION variables and constants
 import config from '../config/config.js'
+import refresh from '../auth.js'
 
 const apiUrl = config.server + config.api + config.notesRoute
 

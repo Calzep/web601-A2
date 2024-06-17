@@ -66,7 +66,7 @@ router.post('/login', upload.none(), async (req, res) => {
         }
 
         const accessToken = generateAccessToken(user)
-        let refreshToken = jwt.sign(user.id, config.jwt_refresh_secret)
+        let refreshToken = jwt.sign({id: user._id}, config.jwt_refresh_secret)
 
         rToken = new RefreshToken({
             token : refreshToken
@@ -98,8 +98,8 @@ router.delete('/logout', getRefreshToken, (req, res) => {
     })
 })
 
-router.post('/token', async (req, res) => {
-    const refreshToken = req.body.token
+router.post('/token', getRefreshToken, async (req, res) => {
+    const refreshToken = req.token
     if(!refreshToken) {
         return res.status(401).json({message: "No refresh token provided"})
     }
@@ -114,7 +114,7 @@ router.post('/token', async (req, res) => {
         if(err){
             return res.status(403).json({message: "refresh token is invalid"})
         }
-        const accessToken = generateAccessToken({id: user._id})
+        const accessToken = generateAccessToken({user})
         res.status(200).json({accessToken: accessToken})
     })
 })

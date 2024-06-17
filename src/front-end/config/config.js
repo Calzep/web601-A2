@@ -8,7 +8,8 @@ const config = {
     authRoute: "/auth",
     loginEndPoint: "/login",
     signupEndPoint: "/signup",
-    logoutEndPoint: "/logout"
+    logoutEndPoint: "/logout",
+    refreshEndPoint: "/token"
 }
 
 export default config
