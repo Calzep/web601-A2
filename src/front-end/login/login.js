@@ -1,36 +1,16 @@
 //SECTION - Functions
 
 
-const login = async (event) => {
-    event.preventDefault
-
-    //Retrieve data from form inputs
-    let formData = new FormData(loginForm)
-
-    //Prepare API call options
-    let requestOptions = {
-        method: 'POST',
-        body: formData
-    }
-
-    //Attempt to call login api
-    await fetch(apiUrl + config.loginEndPoint, requestOptions)
-        .then(res => {
-            if(!res.ok) {
-                throw new Error('Network response was not OK')
-            }
-            return res.text()
-        })
-        .then(
-
-        )
-        .catch (
-            
-        )
+const login = (event) => {
+    action.value = 'login'
 }
 
-const signup = async (event) => {
-    event.preventDefault
+const signup = (event) => {
+    action.value = 'signup'
+}
+
+const authenticate = async (event) => {
+    event.preventDefault()
 
     //Retrieve data from form inputs
     let formData = new FormData(loginForm)
@@ -40,33 +20,47 @@ const signup = async (event) => {
         method: 'POST',
         body: formData
     }
+    
+    if(action.value === 'login') {
+        let response = await fetch(apiUrl + config.loginEndPoint, requestOptions)
 
-    //Attempt to call login api
-    await fetch(apiUrl + config.signupEndPoint, requestOptions)
-        .then(res => {
-            if(!res.ok) {
-                throw new Error('Network response was not OK')
-            }
-            return res.text()
-        })
-        .then(
+        const data = await response.json()
+        if (response.ok){
+            console.log('Login successful')
+            console.log(data)
+            //NOTE - SAVE THE TOKEN IN MONGODB
+            //window.location.href = "/Grangle"
+        } else {
+            console.log(`Login failed: ${data.message}`)
+        }
+    }
 
-        )
-        .catch (
-            
-        )
+    if(action.value === 'signup') {
+        let response = await fetch(apiUrl + config.signupEndPoint, requestOptions)
+        
+        const data = await response.json()
+        if (response.ok){
+            console.log('Registration successful')
+            console.log(data)
+            //NOTE - login user
+        } else {
+            console.log(`Registration failed: ${data.message}`)
+        }
+    }
 }
 
 //SECTION - Variables
 import config from '../config/config.js'
 
-const apiUrl = config.server + config.api + config.authenticationRoute
+const apiUrl = config.server + config.api + config.authRoute
 
 const loginBtn = document.getElementById('loginBtn')
-const createAccountBtn = document.getElementById('createAccountBtn')
+const createAccountBtn = document.getElementById('createBtn')
 const loginForm = document.getElementById('loginForm')
+const action = document.getElementById('action')
 
 //SECTION - Event Listeners
 
 loginBtn.addEventListener('click', login)
 createAccountBtn.addEventListener('click', signup)
+loginForm.addEventListener('submit', authenticate)

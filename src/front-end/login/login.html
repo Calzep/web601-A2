@@ -11,29 +11,30 @@
         <meta name="description" content="">
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <link rel="stylesheet" href="login.css">
+        <script type="module" src="login.js"></script>
     </head>
     <body>
         <!--[if lt IE 7]>
             <p class="browsehappy">You are using an <strong>outdated</strong> browser. Please <a href="#">upgrade your browser</a> to improve your experience.</p>
         <![endif]-->
         <article>
-            <div class="loginForm">
+            <form id="loginForm" class="loginForm">
                 <h2>Log in to your account</h2>
-                <label for="usernameEntry">Email
+                <label for="usernameEntry">Username
                     <input id="usernameEntry" name="username" type="text" required maxlength="20" minlength="8" placeholder="your username" autocomplete="username">
                 </label>
                 <label for="passwordEntry">Password
                     <input id="passwordEntry" name="password" type="password" required maxlength="100" minlength="8" placeholder="*******************" autocomplete="current-password">
                 </label>
-                <button id="loginBtn" class="actionBtn" type="button">
+                <input id="action" name="action" type="hidden">
+                <button id="loginBtn" class="actionBtn" type="submit">
                     Log In
                 </button>
                 <p id="createAccountTxt" class="dull">Don't have an account?</p>
-                <button id="createBtn" class="actionBtn" type="button">
+                <button id="createBtn" class="actionBtn" type="submit">
                     Create New Account
                 </button>
-            </div>
+            </form>
         </article>
-        <script src="login.js" async defer></script>
     </body>
 </html>

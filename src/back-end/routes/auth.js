@@ -16,19 +16,17 @@ const upload = multer()
 
 //SECTION - Functions
 const generateAccessToken = (user) => {
-    return jwt.sign(user, config.jwt_access_secret, {expiresIn: '360000'})
+    return jwt.sign({user:user}, config.jwt_access_secret, {expiresIn: '360s'})
 }
 
 //SECTION - Endpoints
 
-router.post('/signup', async (req, res) => {
+router.post('/signup', upload.none(), async (req, res) => {
     const username = req.body.username
     const password = req.body.password
 
-    //TODO - ADD VALIDATION HERE
-
-    try {
-        let user = await User.findOne({username})
+    try{ 
+        let user = await User.findOne({username: username})
         if(user) {
             return res.status(400).json({message: "Username is already in use"})
         }
@@ -41,25 +39,21 @@ router.post('/signup', async (req, res) => {
 
         await user.save()
 
-        const payload = {user: {is: user.id}}
-
-        jwt.sign(payload, config.jwt_access_secret, {expires: 720000}, (err, token) => {
-            if(err) {
-                throw err
-            }
-            res.status(201).json({token})
-        })
+        const accessToken = generateAccessToken(user.username)
+        const refreshToken = jwt.sign(user.username, config.jwt_refresh_secret)
+        res.status(200).json({accessToken: accessToken, refreshToken: refreshToken})
     } catch (err) {
+        console.error(err)
         res.status(500).json({message:'Internal server error', error:err})
     }
 })
 
-router.post('/login', async (req, res) => {
+router.post('/login', upload.none(), async (req, res) => {
     const username = req.body.username
     const password = req.body.password
 
     try {
-        let user = await user.findOne({username})
+        let user = await User.findOne({username: username})
 
         if(!user) {
             return res.status(400).json({message: "Username or password is incorrect"})
@@ -69,13 +63,14 @@ router.post('/login', async (req, res) => {
             return res.status(400).json({message: "Username or password is incorrect"})
         }
 
-        const accessToken = generateAccessToken(user)
-        const refreshToken = jwt.sign(user, config.jwt_refresh_secret)
+        const accessToken = generateAccessToken(user.username)
+        const refreshToken = jwt.sign(user.username, config.jwt_refresh_secret)
 
         res.status(200).json({accessToken: accessToken, refreshToken: refreshToken})
 
     } catch (err) {
-        res.status(500).send('server error')
+        console.error(err)
+        res.status(500).json({message:'Internal server error'})
     }
 })
 

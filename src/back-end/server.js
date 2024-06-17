@@ -24,12 +24,10 @@ app.use(bodyParser.urlencoded({extended: true}))
 //SECTION - Routers
 const noteRoutes = require('./routes/notes.js')
 const authRoutes = require('./routes/auth.js')
-const userRoutes = require('./routes/users.js')
 
 //use routers
 app.use('/api/notes', noteRoutes)
 app.use('/api/auth', authRoutes)
-//app.use('/api/users', userRoutes)
 
 
 //SECTION - Database connection
