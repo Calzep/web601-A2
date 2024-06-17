@@ -6,7 +6,7 @@ const multer = require('multer')
 const Note = require('../models/note.js')
 
 //Middleware
-const authenticateToken = require('../middleware/auth.js')
+const authenticateToken = require('../middleware/authenticateToken.js')
 
 const router = express()
 //Enables processing of html forms

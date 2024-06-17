@@ -1,14 +1,16 @@
 //SECTION - Functions
 
-
+//If login button is pressed, set hidden action input to login
 const login = (event) => {
     action.value = 'login'
 }
 
+//If create now account button is pressed, set hidden action input to signup
 const signup = (event) => {
     action.value = 'signup'
 }
 
+//Form submission
 const authenticate = async (event) => {
     event.preventDefault()
 
@@ -21,19 +23,24 @@ const authenticate = async (event) => {
         body: formData
     }
 
+    //variable to determine if login should be ran after signup
     let login = false
     var params = new URLSearchParams()
 
+    //Check if the signup button was pressed
     if(action.value === 'signup') {
+        //Attempt to call POST api
         let response = await fetch(apiUrl + config.signupEndPoint, requestOptions)
         
         const data = await response.json()
         if (response.ok){
+            //If successful, set login to true and add the createAccount notif to url search params to trigger a notification on the landing page
             console.log('Registration successful')
             login = true
             params.append("notif", "accountCreate")
             
         } else {
+            //If unsuccessful, display error message
             console.log(`Registration failed: ${data.message}`)
 
             //Display toast notification
@@ -44,15 +51,19 @@ const authenticate = async (event) => {
         }
     }
 
+    //If login button pressed, or after successful registration
     if(action.value === 'login' || login === true) {
+        //Attempt to call POST api
         let response = await fetch(apiUrl + config.loginEndPoint, requestOptions)
 
         const data = await response.json()
         if (response.ok){
+            //if successful store returned tokens in local storage and redirect to landing page
             localStorage.setItem("accessToken", data.accessToken)
             localStorage.setItem("refreshToken", data.refreshToken)
             window.location.href = "../landing/landing.html?" + params.toString()
         } else {
+            //If unsuccessful, display error message
             console.log(`Login failed: ${data.message}`)
 
             //Display toast notification
