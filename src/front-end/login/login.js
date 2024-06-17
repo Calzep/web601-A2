@@ -35,6 +35,12 @@ const authenticate = async (event) => {
             
         } else {
             console.log(`Registration failed: ${data.message}`)
+
+            //Display toast notification
+            toastAlert.classList.add('text-bg-danger')
+            toastText.innerHTML = `<strong>Registration failed!</strong> ${data.message}`
+            const toast = new bootstrap.Toast(toastAlert)
+            toast.show()
         }
     }
 
@@ -48,6 +54,12 @@ const authenticate = async (event) => {
             window.location.href = "../landing/landing.html?" + params.toString()
         } else {
             console.log(`Login failed: ${data.message}`)
+
+            //Display toast notification
+            toastAlert.classList.add('text-bg-danger')
+            toastText.innerHTML = `<strong>Login failed!</strong> ${data.message}`
+            const toast = new bootstrap.Toast(toastAlert)
+            toast.show()
         }
     }
 }
@@ -61,6 +73,8 @@ const loginBtn = document.getElementById('loginBtn')
 const createAccountBtn = document.getElementById('createBtn')
 const loginForm = document.getElementById('loginForm')
 const action = document.getElementById('action')
+const toastAlert = document.getElementById('toastAlert')
+const toastText = document.getElementById('toastText')
 
 //SECTION - Event Listeners
 

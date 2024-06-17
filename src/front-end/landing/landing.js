@@ -49,6 +49,10 @@ const getToastNotif = () => {
     if(notif == 'editDelete') {
         toastAlert.classList.add('text-bg-success')
         notifText = '<strong>Success!</strong> Your note has been deleted.'
+    }
+    if(notif == 'accountCreate') {
+        toastAlert.classList.add('text-bg-success')
+        notifText = '<strong>Success!</strong> Your account has been created.'
     } 
     //Check if the notification should be rendered
     if(notif) {
