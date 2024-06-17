@@ -20,8 +20,24 @@ const authenticate = async (event) => {
         method: 'POST',
         body: formData
     }
-    
-    if(action.value === 'login') {
+
+    let login = false
+
+    if(action.value === 'signup') {
+        let response = await fetch(apiUrl + config.signupEndPoint, requestOptions)
+        
+        const data = await response.json()
+        if (response.ok){
+            console.log('Registration successful')
+            console.log(data)
+            login = true
+            
+        } else {
+            console.log(`Registration failed: ${data.message}`)
+        }
+    }
+
+    if(action.value === 'login' || login === true) {
         let response = await fetch(apiUrl + config.loginEndPoint, requestOptions)
 
         const data = await response.json()
@@ -32,19 +48,6 @@ const authenticate = async (event) => {
             //window.location.href = "/Grangle"
         } else {
             console.log(`Login failed: ${data.message}`)
-        }
-    }
-
-    if(action.value === 'signup') {
-        let response = await fetch(apiUrl + config.signupEndPoint, requestOptions)
-        
-        const data = await response.json()
-        if (response.ok){
-            console.log('Registration successful')
-            console.log(data)
-            //NOTE - login user
-        } else {
-            console.log(`Registration failed: ${data.message}`)
         }
     }
 }
