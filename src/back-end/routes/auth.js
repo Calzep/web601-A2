@@ -7,6 +7,7 @@ const multer = require('multer')
 const config = require('../config/loadEnv')
 //Data model
 const User = require('../models/user')
+const RefreshToken = require('../models/refreshToken')
 
 //Includes middlewares
 const router = express()
@@ -62,9 +63,19 @@ router.post('/login', upload.none(), async (req, res) => {
         }
 
         const accessToken = generateAccessToken(user)
-        const refreshToken = jwt.sign(user.id, config.jwt_refresh_secret)
+        let refreshToken = jwt.sign(user.id, config.jwt_refresh_secret)
+
+        refreshToken = new RefreshToken({
+            token : refreshToken
+        })
+
+        refreshToken = await refreshToken.save()
     
-        res.status(200).json({accessToken:accessToken, refreshToken:refreshToken})
+        if(refreshToken) {
+            res.status(200).json({accessToken:accessToken, refreshToken:refreshToken})
+        } else {
+            res.status(404).send({message:"Refresh token could not be saved"})
+        }
 
     } catch (err) {
         console.error(err)
@@ -72,21 +83,34 @@ router.post('/login', upload.none(), async (req, res) => {
     }
 })
 
-router.delete('/logout', (req, res) => {
-    //delete refreshToken
-    res.status(204)
+router.delete('/logout:token', (req, res) => {
+    token = RefreshToken.findOneAndDelete ({token: req.params.token})
+    
+    if(token) {
+        return res.status(204).json({success: true, message: 'Token deleted'})
+    } else {
+        return res.status(200).json({success: false, message: 'Token not found'})
+    }
 })
 
-router.post('/token', (req, res) => {
+router.post('/token', async (req, res) => {
     const refreshToken = req.body.token
-    if(!refreshToken) return res.status(401)
+    if(!refreshToken) {
+        return res.status(401).json({message: "No refresh token provided"})
+    }
+
+    let token = await RefreshToken.find({token: refreshToken})
+    if(!token) {
+        return res.status(403).json({message: "refresh token is invalid"})
+    }
+
     //CHECK if refresh token is valid
     jwt.verify(refreshToken, config.jwt_refresh_secret, (err, user) => {
         if(err){
-            return res.status(403)
+            return res.status(403).json({message: "refresh token is invalid"})
         }
-        const accessToken = generateAccessToken({name: user.username})
-        res.json({accessToken: accessToken})
+        const accessToken = generateAccessToken({id: user._id})
+        res.status(200).json({accessToken: accessToken})
     })
 })
 
