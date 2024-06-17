@@ -22,6 +22,7 @@ const authenticate = async (event) => {
     }
 
     let login = false
+    var params = new URLSearchParams()
 
     if(action.value === 'signup') {
         let response = await fetch(apiUrl + config.signupEndPoint, requestOptions)
@@ -31,6 +32,7 @@ const authenticate = async (event) => {
             console.log('Registration successful')
             console.log(data)
             login = true
+            params.append("notif", "accountCreate")
             
         } else {
             console.log(`Registration failed: ${data.message}`)
@@ -44,8 +46,7 @@ const authenticate = async (event) => {
         if (response.ok){
             console.log('Login successful')
             console.log(data)
-            //NOTE - SAVE THE TOKEN IN MONGODB
-            //window.location.href = "/Grangle"
+            window.location.href = "../landing/landing.html?" + params.toString()
         } else {
             console.log(`Login failed: ${data.message}`)
         }
