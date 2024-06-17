@@ -30,7 +30,6 @@ const authenticate = async (event) => {
         const data = await response.json()
         if (response.ok){
             console.log('Registration successful')
-            console.log(data)
             login = true
             params.append("notif", "accountCreate")
             
@@ -44,7 +43,6 @@ const authenticate = async (event) => {
 
         const data = await response.json()
         if (response.ok){
-            console.log('Login successful')
             localStorage.setItem("accessToken", data.accessToken)
             localStorage.setItem("refreshToken", data.refreshToken)
             window.location.href = "../landing/landing.html?" + params.toString()

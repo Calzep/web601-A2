@@ -17,7 +17,8 @@ const upload = multer()
 //Retrieve all notes
 //Attempts to send all notes from the database, sending an error if failed.
 router.get('/', authenticateToken, async (req, res) => {
-    const noteList = await Note.find({userId: req.user.name}) //NOTE this probably won't work
+    console.log(req.user)
+    const noteList = await Note.find({userId: req.user.id})
     if(noteList) {
         res.status(200).send(noteList)
     } else {

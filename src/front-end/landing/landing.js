@@ -60,18 +60,24 @@ const getToastNotif = () => {
 
 //Attempts to call get API 
 const retrieveNotes = async () => {
-    try {
-        let response = await fetch(apiUrl)
-        if(!response.ok) {
-            throw new Error('Network response was not OK')
-        }
 
+    let requestOptions = {
+        method: 'GET',
+        headers: {
+            'authorization': 'Bearer ' + localStorage.getItem('accessToken')
+        }
+    }
+
+    let response = await fetch(apiUrl, requestOptions)
+    
+    const data = await response.json()
+    if(response.ok) {
         //If successful, returns a list of notes sent by the back end
-        let notes = await response.json()
+        let notes = data
         return notes
-    } catch (err) {
+    } else {
         //If unsuccessful, displays an error notification
-        console.error("Error retrieving notes", err)
+        console.error("Error retrieving notes:", data.message)
 
         //Display toast notification
         toastAlert.classList.add('text-bg-danger')
@@ -157,6 +163,8 @@ const toastAlert = document.getElementById('toastAlert')
 const toastText = document.getElementById('toastText')
 
 var params = new URLSearchParams(window.location.search)
+const accessToken = localStorage.getItem('accessToken')
+const refreshToken = localStorage.getItem('refreshToken')
 
 
 //SECTION Page load

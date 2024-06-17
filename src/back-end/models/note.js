@@ -4,7 +4,7 @@ const Schema = mongoose.Schema;
 //Schema for storing notes
 const noteSchema = new Schema({
     userId: {
-        type: Number,
+        type: String,
         required: true
     },
     title: {

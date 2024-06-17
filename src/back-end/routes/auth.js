@@ -16,7 +16,7 @@ const upload = multer()
 
 //SECTION - Functions
 const generateAccessToken = (user) => {
-    return jwt.sign({user:user}, config.jwt_access_secret, {expiresIn: '30s'})
+    return jwt.sign({id: user._id}, config.jwt_access_secret, {expiresIn: '600s'})
 }
 
 //SECTION - Endpoints
@@ -61,8 +61,8 @@ router.post('/login', upload.none(), async (req, res) => {
             return res.status(400).json({message: "Username or password is incorrect"})
         }
 
-        const accessToken = generateAccessToken(user.username)
-        const refreshToken = jwt.sign(user.username, config.jwt_refresh_secret)
+        const accessToken = generateAccessToken(user)
+        const refreshToken = jwt.sign(user.id, config.jwt_refresh_secret)
     
         res.status(200).json({accessToken:accessToken, refreshToken:refreshToken})
 
